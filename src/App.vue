@@ -70,13 +70,18 @@ const db = open({
       <div class="col-5">
         <search-input @input="search = $event.target.value"/>
         <div class="list group">
-          <div 
-            class="item" 
+          <div class="separator"
             v-for="connection in connections.filter(item => !item.delete)" 
-            :key="connection" 
-            :class="{'selected-item':connection.selected}"
-            @click="select(connection)"
-          >{{connection.connection.name || '&nbsp;'}}</div>
+              :key="connection" 
+          >
+            <div 
+              class="item" 
+              
+              :class="{'selected-item':connection.selected}"
+              @click="select(connection)"
+            > {{connection.connection.name || '&nbsp;'}}</div>
+          </div>
+          
         </div>
         <div class="btn-group d-flex">
         <button class="btn btn-success w-100" @click="add"><i class="fa fa-plus"></i> Novo</button>
@@ -148,7 +153,7 @@ const db = open({
 
 .item:hover{
   background-color: #ddd;
-    border:2px solid #ddd;
+  border:2px solid #ddd;
 }
 .selected-item{
   /* dashed border */
@@ -159,5 +164,9 @@ const db = open({
   /* dashed border */
   border: 2px dashed rgb(0, 204, 255);
   background-color: rgb(211, 244, 250);
+}
+
+.separator{
+  border-bottom: 1px solid #ddd;
 }
 </style>
