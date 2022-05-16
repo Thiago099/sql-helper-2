@@ -173,7 +173,7 @@ async function save()
         </div>
         <div class="d-flex btn-group">
           <button class="btn btn-primary" @click="save()"><i class="fa fa-floppy-o" ></i> Salvar</button>
-          <button class="btn btn-warning" @click="if(selected_connection.enabled){save();$emit('open',selected_connection.connection)}"><i class="fa fa-folder"></i> Abrir</button>
+          <button class="btn btn-warning" @click="if(selected_connection.enabled){$emit('open',selected_connection.connection);}"><i class="fa fa-folder"></i> Abrir</button>
         </div>
       </div>
     </div>
