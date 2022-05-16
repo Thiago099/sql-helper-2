@@ -182,11 +182,7 @@ async function save()
 
 
 <style scoped>
-.group{
-  border: 1px solid #ddd;
-  border-radius: 3px;
 
-}
 .list{
   height: calc(100vh - 120px);
 }

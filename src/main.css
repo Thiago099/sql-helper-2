@@ -1,0 +1,5 @@
+.group{
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    overflow-y: auto;
+}
