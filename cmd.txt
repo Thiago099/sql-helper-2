@@ -1,0 +1,3 @@
+vue create electron-vue
+vue add electron-builder
+npm install ts-loader@~8.2.0
