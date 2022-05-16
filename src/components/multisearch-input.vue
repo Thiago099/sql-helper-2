@@ -33,7 +33,7 @@ const selected = ref('database')
     margin-left: 15px;
     z-index: 100;
 }
-.btn-light{
+.btn-light, .btn-light:hover{
     border: 1px solid #ced4da;
 }
 
