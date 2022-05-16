@@ -9,6 +9,7 @@ interface connection_field{
     connection:connection,
 }
 interface connection{
+  rowid:number,
   name:string,
   ip:string,
   port:string,
@@ -20,6 +21,7 @@ const selected_connection = ref<connection_field>({
       delete:false,
       selected:true,
       connection:{
+        rowid:0,
         name:'',
         ip:'',
         port:'',
@@ -36,6 +38,7 @@ function add(){
       delete:false,
       selected:true,
       connection:{
+        rowid:0,
         name:'',
         ip:'',
         port:'',
@@ -54,24 +57,43 @@ function select(connection:connection_field){
   connection.selected = true
   selected_connection.value = connection
 }
+import { sqlite } from '@/libraries/sqlite'
+(async ()=>{
+  const db = await sqlite
+  db.exec('CREATE TABLE IF NOT EXISTS connections(name varchar(64),ip varchar(64),port varchar(64),user varchar(64),password varchar(64))')
+  console.log(await db.all('SELECT rowid, * FROM connections',[]))
+})()
 
-import sqlite3 from 'sqlite3'
-import { open } from 'sqlite'
-
-const db = open({
-    filename: './connections.db',
-    mode: sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
-    driver: sqlite3.Database
-})
+async function save()
+{
+  const db = await sqlite
+  connections.value.forEach(async (item: any) => {
+    console.log(item)
+    if(item.delete)
+    {
+      if(item.connection.rowid != 0)
+      {
+        db.exec('DELETE FROM connections WHERE rowid = ?',[item.connection.rowid])
+      }
+    }
+    else
+      {
+        console.log(await db.exec(
+          `INSERT INTO connections(name,ip,port,user,password) 
+          VALUES(${item.connection.name},${item.connection.ip},${item.connection.port},${item.connection.user},${item.connection.password})`
+        ))
+      }
+  });
+}
 </script>
 <template>
   <div class="container">
     <div class="row">
       <div class="col-5">
-        <search-input @input="search = $event.target.value"/>
+        <search-input @input="search = $event?.target?.value"/>
         <div class="list group">
           <div class="separator"
-            v-for="connection in connections.filter(item => !item.delete)" 
+            v-for="connection in connections.filter(item => !item.delete && item.connection.name.includes(search))" 
               :key="connection" 
           >
             <div 
@@ -114,7 +136,7 @@ const db = open({
           </div>
         </div>
         <div class="d-flex btn-group">
-          <button class="btn btn-primary" ><i class="fa fa-floppy-o"></i> Salvar</button>
+          <button class="btn btn-primary" @click="save()"><i class="fa fa-floppy-o" ></i> Salvar</button>
           <button class="btn btn-warning" ><i class="fa fa-folder"></i> Abrir</button>
         </div>
       </div>
