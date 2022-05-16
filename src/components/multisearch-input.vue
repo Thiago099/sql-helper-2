@@ -9,6 +9,10 @@ const selected = ref('database')
 </script>
 
 <template>
+    <i class="fa fa-minus-square" @click="collapse_all()"></i>
+    <i class="fa fa-plus-square" @click="expand_all()"></i>
+    <i class="fa fa-caret-down"></i>
+    <i class="fa fa-caret-right"></i>
     <div class="search-group">
         <i class="fa fa-search"></i>
         <div class="input-group">
