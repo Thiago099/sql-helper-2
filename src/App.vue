@@ -49,6 +49,22 @@ function add(){
   selected_connection.value = new_connection
   connections.value.push(new_connection)
 }
+function remove()
+{
+  selected_connection.value.delete = true
+  selected_connection.value = {
+      delete:false,
+      selected:false,
+      connection:{
+        rowid:0,
+        name:'',
+        ip:'',
+        port:'',
+        user:'',
+        password:'',
+      }
+    }
+}
 
 function select(connection:connection_field){
   connections.value.forEach(item => {
@@ -61,27 +77,43 @@ import { sqlite } from '@/libraries/sqlite'
 (async ()=>{
   const db = await sqlite
   db.exec('CREATE TABLE IF NOT EXISTS connections(name varchar(64),ip varchar(64),port varchar(64),user varchar(64),password varchar(64))')
-  console.log(await db.all('SELECT rowid, * FROM connections',[]))
+  const load_data = await db.all('SELECT rowid, * FROM connections',[])
+  console.log(load_data)
+  load_data.forEach(item => {
+    connections.value.push({
+      delete:false,
+      selected:false,
+      connection:item,
+    })
+  });
 })()
 
 async function save()
 {
   const db = await sqlite
   connections.value.forEach(async (item: any) => {
-    console.log(item)
     if(item.delete)
     {
       if(item.connection.rowid != 0)
       {
-        db.exec('DELETE FROM connections WHERE rowid = ?',[item.connection.rowid])
+        db.exec(`DELETE FROM connections WHERE rowid = ${item.connection.rowid}`)
       }
     }
     else
       {
-        console.log(await db.exec(
-          `INSERT INTO connections(name,ip,port,user,password) 
-          VALUES(${item.connection.name},${item.connection.ip},${item.connection.port},${item.connection.user},${item.connection.password})`
-        ))
+        if(item.connection.rowid == 0)
+        {
+          db.exec(
+            `INSERT INTO connections(name,ip,port,user,password) 
+            VALUES('${item.connection.name}','${item.connection.ip}','${item.connection.port}','${item.connection.user}','${item.connection.password}')`
+          )
+        }
+        else
+        {
+          db.exec(
+            `UPDATE connections SET name = '${item.connection.name}',ip = '${item.connection.ip}',port = '${item.connection.port}',user = '${item.connection.user}',password = '${item.connection.password}' WHERE rowid = ${item.connection.rowid}`
+          )
+        }
       }
   });
 }
@@ -91,7 +123,7 @@ async function save()
     <div class="row">
       <div class="col-5">
         <search-input @input="search = $event?.target?.value"/>
-        <div class="list group">
+        <div class="list group" style="overflow:auto">
           <div class="separator"
             v-for="connection in connections.filter(item => !item.delete && item.connection.name.includes(search))" 
               :key="connection" 
@@ -107,7 +139,7 @@ async function save()
         </div>
         <div class="btn-group d-flex">
         <button class="btn btn-success w-100" @click="add"><i class="fa fa-plus"></i> Novo</button>
-        <button class="btn btn-danger w-100" @click="selected_connection.delete = true"><i class="fa fa-trash"></i> Apagar</button>
+        <button class="btn btn-danger w-100" @click="remove"><i class="fa fa-trash"></i> Apagar</button>
         </div>
       </div>
       <div class="col-7">
