@@ -56,12 +56,11 @@ defineExpose({
 <div class="container">
     <div class="row">
         <div class="col-6">
-            
             <search-input 
             @database="search_database = $event"
             @table="search_table = $event"
             />
-            <div class="group" style="height:calc(100vh - 90px)">
+            <div class="group" style="height:calc(100vh - 130px)">
                 <div class="header-group">
                     <i class="fa fa-minus-square collapse-icon" @click="expand()"></i>
                     <i class="fa fa-plus-square collapse-icon" @click="collapse()"></i>
@@ -96,7 +95,7 @@ defineExpose({
         <div class="col-6">
             <div 
                 class="group" 
-                style="height:calc(100vh - 90px);margin-top:59px"
+                style="height:calc(100vh - 130px);margin-top:59px"
                 @drop="drop($event)"
                 @dragover="allowDrop($event)"
             >

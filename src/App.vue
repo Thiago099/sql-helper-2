@@ -8,6 +8,12 @@ import { ref, nextTick } from 'vue'
 const popup = ref()
 const main = ref()
 const selectedView = ref('connection')
+const selectedTab = ref('Database')
+const tabs = ref([
+    {
+        name:'Database'
+    }
+])
 const loading = ref(false)
 import mysql from 'mysql'
 import { connection } from '@/libraries/mysql'
@@ -39,10 +45,17 @@ function open(e: any)
 
 <template>
     <div>
-        <load-control :loading="loading"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <load-control :loading="loading"/>
         <popup-control ref="popup"/>
         <connection-view v-show="selectedView == 'connection'" @open="open" />
+        <div class="container" v-show="selectedView == 'main'">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" v-for="tab of tabs" :key="tab" :class="{'active':selectedTab == tab.name}" href="#">{{tab.name}}</a>
+                </li>
+            </ul>
+        </div>
         <main-view v-if="selectedView == 'main'" @close="selectedView = 'connection'" ref="main" />
     </div>
 </template>
