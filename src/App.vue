@@ -10,9 +10,8 @@ const main = ref()
 const selectedView = ref('connection')
 const selectedTab = ref('Database')
 const tabs = ref([
-    {
-        name:'Database'
-    }
+    'Database',
+    'Table',
 ])
 const loading = ref(false)
 import mysql from 'mysql'
@@ -51,20 +50,20 @@ function open(e: any)
         <connection-view v-show="selectedView == 'connection'" @open="open" />
         <div class="container" v-show="selectedView == 'main'">
             <ul class="nav nav-pills">
-                <li class="nav-item">
-                    <a class="nav-link" v-for="tab of tabs" :key="tab" :class="{'active':selectedTab == tab.name}" href="#">{{tab.name}}</a>
+                <li class="nav-item" v-for="tab of tabs" :key="tab">
+                    <a class="nav-link"  :class="{'active':selectedTab == tab}" @click="selectedTab = tab" href="#">{{tab}}</a>
                 </li>
                 <li class="nav-item">
-                <a 
-                    class="nav-link"
-                    style="color:red"
-                    @click="selectedView = 'connection'"
-                    href="#"
-                ><i class="fa fa-times"></i> Fechar</a>
+                    <a 
+                        class="nav-link"
+                        style="color:red"
+                        @click="selectedView = 'connection'"
+                        href="#"
+                    ><i class="fa fa-times"></i> Fechar</a>
                 </li>
             </ul>
         </div>
-        <main-view v-if="selectedView == 'main'"  ref="main" />
+        <main-view v-if="selectedView == 'main' && selectedTab == 'Database'"   ref="main" />
     </div>
 </template>
 
