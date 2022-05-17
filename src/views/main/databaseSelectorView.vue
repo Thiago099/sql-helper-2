@@ -104,11 +104,7 @@ defineExpose({
         </div>
             
     </div>
-    <button 
-        class="btn btn-danger"
-        @click="$emit('close')"
-        style="position:fixed;right:10px;bottom:10px;"
-    ><i class="fa fa-times"></i> Fechar</button>
+
 </div>
 </template>
 <style scoped>

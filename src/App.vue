@@ -54,9 +54,17 @@ function open(e: any)
                 <li class="nav-item">
                     <a class="nav-link" v-for="tab of tabs" :key="tab" :class="{'active':selectedTab == tab.name}" href="#">{{tab.name}}</a>
                 </li>
+                <li class="nav-item">
+                <a 
+                    class="nav-link"
+                    style="color:red"
+                    @click="selectedView = 'connection'"
+                    href="#"
+                ><i class="fa fa-times"></i> Fechar</a>
+                </li>
             </ul>
         </div>
-        <main-view v-if="selectedView == 'main'" @close="selectedView = 'connection'" ref="main" />
+        <main-view v-if="selectedView == 'main'"  ref="main" />
     </div>
 </template>
 
