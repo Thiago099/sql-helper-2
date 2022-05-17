@@ -21,29 +21,42 @@ function expand()
 const search_database = ref('')
 const search_table = ref('')
 
-import { selected_tables } from './selected-tables'
+import { selected_tables, selected_database } from './selected-tables'
 
 function allowDrop(ev:any) {
     ev.preventDefault();
 }
 
-function drag(ev:any, data:string) {
-    ev.dataTransfer.setData("text", data);
+function drag(ev:any, table:string, database:string) {
+    ev.dataTransfer.setData("table", table);
+     ev.dataTransfer.setData("database", database);
 }
 
 function drop(ev:any) {
     ev.preventDefault();
-    var data: string = ev.dataTransfer.getData("text");
+    var data: string = ev.dataTransfer.getData("table");
+    var database: string = ev.dataTransfer.getData("database");
+
+     if(database != selected_database.value)
+    {
+        selected_database.value = database
+        selected_tables.value = []
+    }
     if(!selected_tables.value.includes(data))
     {
         selected_tables.value.push(data)
     }
 }
 
-function move(value:string) {
-    if(!selected_tables.value.includes(value))
+function move(table:string, database:string) {
+    if(database != selected_database.value)
     {
-        selected_tables.value.push(value)
+        selected_database.value = database
+        selected_tables.value = []
+    }
+    if(!selected_tables.value.includes(table))
+    {
+        selected_tables.value.push(table)
     }
 }
 
@@ -81,8 +94,8 @@ defineExpose({
                                 class="item item-table" 
                                 v-for="table of database.tables?.filter((item)=>item.includes(search_table))" 
                                 draggable="true" 
-                                @dragstart="drag($event, table)"
-                                @click="move(table)"
+                                @dragstart="drag($event, table, database.database)"
+                                @click="move(table,database.database)"
                                 :key="table"
                             >
                                 &nbsp;&nbsp;&nbsp;&nbsp;{{ table }}
@@ -99,6 +112,11 @@ defineExpose({
                 @drop="drop($event)"
                 @dragover="allowDrop($event)"
             >
+                <div class="header-group">
+                    <div class="item-database">
+                        {{selected_database}}
+                    </div>
+                </div>
                 <div class="item item-table" v-for="(selected, index) of selected_tables" :key="selected" @click="selected_tables.splice(index,1)"> {{ selected }} </div>
             </div>
         </div>
