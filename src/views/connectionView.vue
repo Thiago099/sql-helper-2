@@ -121,9 +121,11 @@ async function save()
       }
   });
 }
+import loadControl from '@/components/load-control.vue'
 </script>
 <template>
   <div class="container">
+    <load-control />
     <div class="row">
       <div class="col-5">
         <search-input @input="search = $event?.target?.value"/>

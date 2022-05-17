@@ -33,9 +33,12 @@ function open(e: any)
 </script>
 
 <template>
-    <popup-control ref="popup"/>
-    <connection-view v-show="selectedView == 'connection'" @open="open" />
-    <main-view v-if="selectedView == 'main'" @close="selectedView = 'connection'" ref="main" />
+    <div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <popup-control ref="popup"/>
+        <connection-view v-show="selectedView == 'connection'" @open="open" />
+        <main-view v-if="selectedView == 'main'" @close="selectedView = 'connection'" ref="main" />
+    </div>
 </template>
 
 <style scoped>
