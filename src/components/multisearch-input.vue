@@ -29,7 +29,7 @@ const selected = ref('database')
 }
 .fa-search{
     color: rgb(177, 176, 176);
-    position: fixed;
+    position: absolute;
     margin-top: 10px;
     margin-left: 15px;
     z-index: 100;

@@ -23,7 +23,7 @@ const { value } = toRefs(props)
 }
 .fa-search{
     color: rgb(177, 176, 176);
-    position: fixed;
+    position: absolute;
     margin-top: 10px;
     margin-left: 15px;
 }

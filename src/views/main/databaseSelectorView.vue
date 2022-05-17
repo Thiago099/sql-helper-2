@@ -21,7 +21,7 @@ function expand()
 const search_database = ref('')
 const search_table = ref('')
 
-const selected_tables = ref<string[]>([])
+import { selected_tables } from './selected-tables'
 
 function allowDrop(ev:any) {
     ev.preventDefault();
@@ -57,15 +57,15 @@ defineExpose({
     <div class="row">
         <div class="col-6">
             <search-input 
-            @database="search_database = $event"
-            @table="search_table = $event"
+                @database="search_database = $event"
+                @table="search_table = $event"
             />
             <div class="group" style="height:calc(100vh - 130px)">
                 <div class="header-group">
                     <i class="fa fa-minus-square collapse-icon" @click="expand()"></i>
                     <i class="fa fa-plus-square collapse-icon" @click="collapse()"></i>
                 </div>
-                <div style="padding-top:20px">
+                <div style="padding-top:5px">
                     <div 
                         v-for="database of databases?.filter((item)=>item.database.includes(search_database))" 
                         :key="database.database"

@@ -3,6 +3,7 @@ import connectionView from '@/views/connectionView.vue'
 import mainView from '@/views/main/databaseSelectorView.vue'
 import popupControl from '@/components/popup-control.vue'
 import loadControl from '@/components/load-control.vue'
+import tableSelector from '@/views/main/tableSelector.vue'
 
 import { ref, nextTick } from 'vue'
 const popup = ref()
@@ -55,7 +56,7 @@ function open(e: any)
                 <li class="nav-item">
                     <a 
                         class="nav-link"
-                        style="color:red"
+                        style="color:red;right:0px"
                         @click="selectedView = 'connection'"
                         href="#"
                     ><i class="fa fa-times"></i> Fechar</a>
@@ -64,6 +65,7 @@ function open(e: any)
         </div>
         <connection-view v-show="selectedView == 'connection'" @open="open" />
         <main-view v-if="selectedView == 'main' && selectedTab == 'Database'"   ref="main" />
+        <table-selector v-if="selectedView == 'main' && selectedTab == 'Table'" ref="table" />
     </div>
 </template>
 
