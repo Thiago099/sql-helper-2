@@ -123,7 +123,7 @@ async function save()
 }
 </script>
 <template>
-  <div class="container">
+  <div>
     <div class="row">
       <div class="col-5">
         <search-input @input="search = $event?.target?.value"/>

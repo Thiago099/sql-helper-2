@@ -4,7 +4,7 @@ import { selected_tables } from './selected-tables'
 </script>
 
 <template>
-    <div class="container">
+    <div>
         {{ selected_tables }}
     </div>
 </template>

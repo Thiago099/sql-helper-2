@@ -44,11 +44,11 @@ function open(e: any)
 </script>
 
 <template>
-    <div>
+    <div class="container">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <load-control :loading="loading"/>
         <popup-control ref="popup"/>
-        <div class="container" v-show="selectedView == 'main'">
+        <div v-show="selectedView == 'main'">
             <ul class="nav nav-pills">
                 <li class="nav-item" v-for="tab of tabs" :key="tab">
                     <a class="nav-link"  :class="{'active':selectedTab == tab}" @click="selectedTab = tab" href="#">{{tab}}</a>
