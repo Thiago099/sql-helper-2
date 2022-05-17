@@ -66,7 +66,7 @@ defineExpose({
             </div>
         </div>
         <div class="col-6">
-            <div class="group" style="height:calc(100vh - 90px)">
+            <div class="group" style="height:calc(100vh - 90px);margin-top:59px">
 
             </div>
         </div>
@@ -100,10 +100,9 @@ defineExpose({
     font-size: 15pt;
     transition: all 0.2s;
     cursor: pointer;
+    color: rgb(76, 190, 218)
 }
-.collapse-icon:hover{
-    color: rgb(218, 121, 76);
-}
+
 .header-group{
     padding: 5px;
     background-color:white;
