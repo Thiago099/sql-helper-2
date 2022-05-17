@@ -21,7 +21,7 @@ function expand()
 const search_database = ref('')
 const search_table = ref('')
 
-import { selected_tables, selected_database } from './selected-tables'
+import { selected_tables } from './selected-tables'
 
 function allowDrop(ev:any) {
     ev.preventDefault();
@@ -29,34 +29,26 @@ function allowDrop(ev:any) {
 
 function drag(ev:any, table:string, database:string) {
     ev.dataTransfer.setData("table", table);
-     ev.dataTransfer.setData("database", database);
+    ev.dataTransfer.setData("database", database);
 }
 
 function drop(ev:any) {
     ev.preventDefault();
-    var data: string = ev.dataTransfer.getData("table");
+    var table: string = ev.dataTransfer.getData("table");
     var database: string = ev.dataTransfer.getData("database");
 
-     if(database != selected_database.value)
+
+    if(selected_tables.value.every((item:any) => item.table != table || item.database != database))
     {
-        selected_database.value = database
-        selected_tables.value = []
-    }
-    if(!selected_tables.value.includes(data))
-    {
-        selected_tables.value.push(data)
+        selected_tables.value.push({database,table})
     }
 }
 
 function move(table:string, database:string) {
-    if(database != selected_database.value)
+
+    if(selected_tables.value.every((item:any) => item.table != table || item.database != database))
     {
-        selected_database.value = database
-        selected_tables.value = []
-    }
-    if(!selected_tables.value.includes(table))
-    {
-        selected_tables.value.push(table)
+        selected_tables.value.push({database,table})
     }
 }
 
@@ -112,12 +104,9 @@ defineExpose({
                 @drop="drop($event)"
                 @dragover="allowDrop($event)"
             >
-                <div class="header-group">
-                    <div class="item-database">
-                        {{selected_database}}
-                    </div>
+                <div class="item" v-for="(selected, index) of selected_tables" :key="selected" @click="selected_tables.splice(index,1)"> 
+                    <span class="item-database">{{selected.database}}</span>.<span class="item-table">{{ selected.table }}</span>
                 </div>
-                <div class="item item-table" v-for="(selected, index) of selected_tables" :key="selected" @click="selected_tables.splice(index,1)"> {{ selected }} </div>
             </div>
         </div>
             

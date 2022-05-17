@@ -5,6 +5,6 @@ import { selected_tables } from './selected-tables'
 
 <template>
     <div class="container">
-        {{selected_tables}}
+        {{ selected_tables }}
     </div>
 </template>
