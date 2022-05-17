@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import connectionView from '@/views/connectionView.vue'
-import mainView from '@/views/mainView.vue'
+import mainView from '@/views/main/databaseSelectorView.vue'
 import popupControl from '@/components/popup-control.vue'
 
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 const popup = ref()
 const main = ref()
 const selectedView = ref('connection')
@@ -23,9 +23,10 @@ function open(e: any)
             return;
         }
         connection.value = con
-        main.value.load()
         console.log('connected as id ' + con.threadId);
         selectedView.value = 'main'
+        nextTick(()=>main.value.load())
+        
     });
     
 }
@@ -34,7 +35,7 @@ function open(e: any)
 <template>
     <popup-control ref="popup"/>
     <connection-view v-show="selectedView == 'connection'" @open="open" />
-    <main-view v-show="selectedView == 'main'" @close="selectedView = 'connection'" ref="main" />
+    <main-view v-if="selectedView == 'main'" @close="selectedView = 'connection'" ref="main" />
 </template>
 
 <style scoped>

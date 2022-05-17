@@ -25,7 +25,7 @@ defineExpose({
     <div class="popup-message-container" ref="messageContainer">
     </div>
 </template>
-<style>
+<style >
 .danger{
     --color: rgb(255,50,50);
     --color-background: rgb(200,50,50);

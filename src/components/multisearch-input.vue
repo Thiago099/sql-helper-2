@@ -1,24 +1,21 @@
 <script setup lang="ts">
-import { ref, toRefs, defineProps } from 'vue'
+import { ref } from 'vue'
 //props value
 
-const props = defineProps<{value:string}>()
-const { value } = toRefs(props)
 const selected = ref('database')
 
 </script>
 
 <template>
-    <i class="fa fa-minus-square" @click="collapse_all()"></i>
-    <i class="fa fa-plus-square" @click="expand_all()"></i>
-    <i class="fa fa-caret-down"></i>
-    <i class="fa fa-caret-right"></i>
-    <div class="search-group">
-        <i class="fa fa-search"></i>
-        <div class="input-group">
-            <input type="text" class="form-control" @input="$emit('input',value)">
-            <button class="btn" :class="{'btn-primary':selected == 'database','btn-light':selected != 'database'}" @click="selected = 'database'"><i class="fa fa-database"></i></button>
-            <button class="btn" :class="{'btn-primary':selected == 'table','btn-light':selected != 'table'}" @click="selected = 'table'"><i class="fa fa-table"></i></button>
+    <div>
+        <div class="search-group">
+            <i class="fa fa-search"></i>
+            <div class="input-group">
+                <input type="text" class="form-control" v-show="selected == 'database'" @input="$emit('database',$event.target.value)">
+                <input type="text" class="form-control" v-show="selected == 'table'" @input="$emit('table',$event.target.value)">
+                <button class="btn" :class="{'btn-primary':selected == 'database','btn-light':selected != 'database'}" @click="selected = 'database'"><i class="fa fa-database"></i></button>
+                <button class="btn" :class="{'btn-primary':selected == 'table','btn-light':selected != 'table'}" @click="selected = 'table'"><i class="fa fa-table"></i></button>
+            </div>
         </div>
     </div>
 </template>

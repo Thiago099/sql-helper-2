@@ -10,7 +10,7 @@ const { value } = toRefs(props)
 <template>
     <div class="search-group">
         <i class="fa fa-search"></i>
-        <input type="text" class="form-control" @input="$emit('input',value)">
+        <input type="text" class="form-control" @input="$emit('input',$event.target.value)">
     </div>
 </template>
 <style scoped>
