@@ -21,6 +21,31 @@ function expand()
 const search_database = ref('')
 const search_table = ref('')
 
+const selected_tables = ref<string[]>([])
+
+function allowDrop(ev:any) {
+    ev.preventDefault();
+}
+
+function drag(ev:any, data:string) {
+    ev.dataTransfer.setData("text", data);
+}
+
+function drop(ev:any) {
+    ev.preventDefault();
+    var data: string = ev.dataTransfer.getData("text");
+    if(!selected_tables.value.includes(data))
+    {
+        selected_tables.value.push(data)
+    }
+}
+
+function move(value:string) {
+    if(!selected_tables.value.includes(value))
+    {
+        selected_tables.value.push(value)
+    }
+}
 
 defineExpose({
     load,
@@ -56,6 +81,9 @@ defineExpose({
                             <div 
                                 class="item item-table" 
                                 v-for="table of database.tables?.filter((item)=>item.includes(search_table))" 
+                                draggable="true" 
+                                @dragstart="drag($event, table)"
+                                @click="move(table)"
                                 :key="table"
                             >
                                 &nbsp;&nbsp;&nbsp;&nbsp;{{ table }}
@@ -66,8 +94,13 @@ defineExpose({
             </div>
         </div>
         <div class="col-6">
-            <div class="group" style="height:calc(100vh - 90px);margin-top:59px">
-
+            <div 
+                class="group" 
+                style="height:calc(100vh - 90px);margin-top:59px"
+                @drop="drop($event)"
+                @dragover="allowDrop($event)"
+            >
+                <div class="item item-table" v-for="(selected, index) of selected_tables" :key="selected" @click="selected_tables.splice(index,1)"> {{ selected }} </div>
             </div>
         </div>
             
