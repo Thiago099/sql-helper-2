@@ -2,16 +2,19 @@
 import connectionView from '@/views/connectionView.vue'
 import mainView from '@/views/main/databaseSelectorView.vue'
 import popupControl from '@/components/popup-control.vue'
+import loadControl from '@/components/load-control.vue'
 
 import { ref, nextTick } from 'vue'
 const popup = ref()
 const main = ref()
 const selectedView = ref('connection')
+const loading = ref(false)
 import mysql from 'mysql'
 import { connection } from '@/libraries/mysql'
 function open(e: any)
 {
     
+    loading.value = true
     const con = mysql.createConnection({
         host     : e.ip,
         user     : e.user,
@@ -20,11 +23,13 @@ function open(e: any)
     con.connect( (err: any) => {
         if (err) {
             popup.value.addMessage('danger', 'Error connecting to database')
+            loading.value = false
             return;
         }
         connection.value = con
         console.log('connected as id ' + con.threadId);
         selectedView.value = 'main'
+        loading.value = false
         nextTick(()=>main.value.load())
         
     });
@@ -34,6 +39,7 @@ function open(e: any)
 
 <template>
     <div>
+        <load-control :loading="loading"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <popup-control ref="popup"/>
         <connection-view v-show="selectedView == 'connection'" @open="open" />

@@ -1,5 +1,12 @@
+<script setup lang="ts">
+import { toRefs, defineProps } from "vue"
+
+const props  = defineProps<{loading:boolean}>()
+const { loading } = toRefs(props)
+</script>
+
 <template>
-    <div>
+    <div v-if="loading">
         <div class="fade-bg"></div>
         <i class="fa fa-refresh center-rotate"></i>
     </div>
