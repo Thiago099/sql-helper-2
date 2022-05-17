@@ -147,7 +147,7 @@ async function save()
         </div>
       </div>
       <div class="col-7">
-        <div class="form group">
+        <div class="form group" style="overflow:hidden">
           <div class="row" style="padding:20px" >
             <div class="form-group col-xl-6">
               <label for="name">Name:</label>
