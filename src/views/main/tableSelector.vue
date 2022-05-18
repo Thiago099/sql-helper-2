@@ -29,7 +29,7 @@ function use_chained(chained:any)
 {
     chained.used = true
     used_chained.value.push(chained)
-    find_foreign_keys(chained.table.name, chained.database).then((result:any) => {
+    find_foreign_keys(chained.item.child ? chained.item.REFERENCED_TABLE_NAME : chained.item.TABLE_NAME, chained.database).then((result:any) => {
         for(const item of result)
         {
             available_foreign_keys.value.push(
@@ -80,7 +80,7 @@ function unuse(selected:any,index:number)
                     <div class="item" draggable="true" v-for="(selected, index) of used_tables" :key="selected" @click="unuse(selected,index)" > 
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                     </div>
-                    <div class="item" draggable="true" v-for="(selected, index) of used_chained" :key="selected" @click="unuse_chined(selected,index)" > 
+                    <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of used_chained" :key="selected" @click="unuse_chined(selected,index)" > 
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':!selected.item.child,'item-child':selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                     </div>
                 </div>
@@ -88,3 +88,14 @@ function unuse(selected:any,index:number)
         </div>
     </div>
 </template>
+
+<style scoped>
+.error-item{
+    border: 2px dashed rgb(255, 0, 0);
+    background-color: rgb(250, 211, 211);
+}
+.error-item:hover{
+    border: 2px dashed rgb(255, 0, 0);
+    background-color: rgb(250, 211, 211);
+}
+</style>
