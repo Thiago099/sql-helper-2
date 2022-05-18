@@ -83,4 +83,7 @@ function open(e: any)
     z-index: 100;
     margin-left: calc(50% - 25vh);
 }
+.nav{
+    margin-bottom: 10px;
+}
 </style>

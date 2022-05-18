@@ -21,7 +21,6 @@ const selected = ref('database')
 </template>
 <style scoped>
 .search-group{
-    margin-top:10px;
     margin-bottom:10px;
 }
 .form-control{
