@@ -39,6 +39,10 @@ for(const table of selected_tables.value)
                     </div>
                 </div>
             </div>
+            <div class="col-6">
+                <div class="group" style="height:calc(100vh - 70px);">
+                </div>
+            </div>
         </div>
     </div>
 </template>
