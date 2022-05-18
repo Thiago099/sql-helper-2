@@ -52,7 +52,7 @@ function move(table:any, database:string) {
     }
     else
     {
-        selected_tables.value = selected_tables.value.filter((item:any) => item.table.table != table.table || item.database != database) as []
+        selected_tables.value = selected_tables.value.filter((item:any) => item.table.name != table.name || item.database != database) as []
     }
 }
 
