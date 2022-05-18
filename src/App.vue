@@ -5,6 +5,16 @@ import popupControl from '@/components/popup-control.vue'
 import loadControl from '@/components/load-control.vue'
 import tableSelector from '@/views/main/tableSelector.vue'
 
+import { selected_tables } from '@/views/main/selected-tables'
+import { databases } from '@/views/main/load-databases'
+
+function clear()
+{
+    databases.value = null
+    selected_tables.value = []
+}
+
+
 import { ref, nextTick } from 'vue'
 const popup = ref()
 const main = ref()
@@ -57,7 +67,7 @@ function open(e: any)
                     <a 
                         class="nav-link"
                         style="color:red;right:0px"
-                        @click="selectedView = 'connection'"
+                        @click="clear();selectedView = 'connection'"
                         href="#"
                     ><i class="fa fa-times"></i> Fechar</a>
                 </li>
