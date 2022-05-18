@@ -106,7 +106,7 @@ defineExpose({
         <div class="col-6">
             <div 
                 class="group" 
-                style="height:calc(100vh - 130px);margin-top:59px"
+                style="height:calc(100vh - 130px);margin-top:49px"
                 @drop="drop($event)"
                 @dragover="allowDrop($event)"
             >
