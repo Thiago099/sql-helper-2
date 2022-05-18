@@ -11,7 +11,10 @@ export async function load(){
                     if(results)
                     {
                         resolve(results.map((table:any) => 
-                            table[`Tables_in_${item.Database}`]
+                            {return {
+                                table:table[`Tables_in_${item.Database}`],
+                                selected:false
+                            }}
                         ))
                     }
                     resolve([])

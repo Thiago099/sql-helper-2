@@ -50,6 +50,10 @@ function move(table:string, database:string) {
     {
         selected_tables.value.push({database,table})
     }
+    else
+    {
+        selected_tables.value = selected_tables.value.filter((item:any) => item.table != table || item.database != database) as []
+    }
 }
 
 defineExpose({
@@ -69,6 +73,7 @@ defineExpose({
                 <div class="header-group">
                     <i class="fa fa-minus-square collapse-icon" @click="expand()"></i>
                     <i class="fa fa-plus-square collapse-icon" @click="collapse()"></i>
+                    <i class="fa fa-rotate-left collapse-icon" @click="load()" style="font-size:13pt;"></i>
                 </div>
                 <div style="padding-top:5px">
                     <div 
@@ -84,13 +89,14 @@ defineExpose({
                         <div v-if="!database.collapsed">
                             <div 
                                 class="item item-table" 
-                                v-for="table of database.tables?.filter((item)=>item.includes(search_table))" 
+                                v-for="table of database.tables?.filter((item)=>item.table.includes(search_table))" 
                                 draggable="true" 
+                                :class="{'selected-item':table.selected}"
                                 @dragstart="drag($event, table, database.database)"
-                                @click="move(table,database.database)"
-                                :key="table"
+                                @click="move(table,database.database);table.selected = !table.selected"
+                                :key="database.database+table"
                             >
-                                &nbsp;&nbsp;&nbsp;&nbsp;{{ table }}
+                                &nbsp;&nbsp;&nbsp;&nbsp;{{ table.table }}
                             </div>
                         </div>
                     </div>
@@ -104,8 +110,13 @@ defineExpose({
                 @drop="drop($event)"
                 @dragover="allowDrop($event)"
             >
-                <div class="item" v-for="(selected, index) of selected_tables" :key="selected" @click="selected_tables.splice(index,1)"> 
-                    <span class="item-database">{{selected.database}}</span>.<span class="item-table">{{ selected.table }}</span>
+                <div 
+                    class="item" 
+                    v-for="(selected, index) of selected_tables" 
+                    :key="selected" 
+                    @click="selected_tables.splice(index,1);selected.table.selected = false"
+                > 
+                    <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.table }}</span>
                 </div>
             </div>
         </div>
@@ -115,21 +126,7 @@ defineExpose({
 </div>
 </template>
 <style scoped>
-.item{
-    padding: 5px;
-    padding-left: 1.5rem;
-    cursor: pointer;
-}
-.item-database{
-    color: rgb(218, 121, 76);
-}
-.item-table{
-    color: rgb(86, 167, 54);
-}
-.item:hover{
-    background-color: #f5f5f5;
-    
-}
+
 .collapse-icon{
     padding:2px;
     font-size: 15pt;
@@ -145,5 +142,17 @@ defineExpose({
     width:100%;
     position: sticky;
     top: 0;
+}
+
+
+.selected-item{
+    /* dashed border */
+    border: 2px dashed rgb(0, 204, 255);
+    background-color: rgb(211, 244, 250);
+}
+.selected-item:hover{
+    /* dashed border */
+    border: 2px dashed rgb(0, 204, 255);
+    background-color: rgb(211, 244, 250);
 }
 </style>

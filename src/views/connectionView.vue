@@ -209,6 +209,7 @@ async function save()
   background-color: #ddd;
   border:2px solid #ddd;
 }
+
 .selected-item{
   /* dashed border */
   border: 2px dashed rgb(0, 204, 255);

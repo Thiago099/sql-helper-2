@@ -23,9 +23,9 @@ const { loading } = toRefs(props)
 }
 .center-rotate{
     position: fixed;
-    top: calc(50% - 80px);
-    left: calc(50% - 80px);
-    font-size: 8em;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+    font-size: 6em;
     color: white;
     z-index: 1001;
     -webkit-animation:spin 3s linear infinite;
