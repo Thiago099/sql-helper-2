@@ -10,7 +10,6 @@ function use(selected:any)
     selected.used = true
     used_tables.value.push(selected)
     find_foreign_keys(selected.table.name, selected.database).then((result:any) => {
-        console.log(result)
         for(const item of result)
         {
             available_foreign_keys.value.push(

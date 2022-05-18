@@ -16,7 +16,6 @@ export async function load(){
                         {
                                 const current_table = current_database?.tables.find((selected:any) => selected.name === table[`Tables_in_${item.Database}`]) 
                                 if(current_table)
-                                console.log(current_table)
                                 return {
                                 name:table[`Tables_in_${item.Database}`],
                                 selected:current_table?.selected ?? false
