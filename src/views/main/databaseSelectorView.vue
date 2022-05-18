@@ -23,26 +23,6 @@ const search_table = ref('')
 
 import { selected_tables } from './selected-tables'
 
-function allowDrop(ev:any) {
-    ev.preventDefault();
-}
-
-function drag(ev:any, table:string, database:string) {
-    ev.dataTransfer.setData("table", table);
-    ev.dataTransfer.setData("database", database);
-}
-
-function drop(ev:any) {
-    ev.preventDefault();
-    var table: string = ev.dataTransfer.getData("table");
-    var database: string = ev.dataTransfer.getData("database");
-
-
-    if(selected_tables.value.every((item:any) => item.table.name != table || item.database != database))
-    {
-        selected_tables.value.push({database,table})
-    }
-}
 
 function move(table:any, database:string) {
 
@@ -92,7 +72,6 @@ defineExpose({
                                 v-for="table of database.tables?.filter((item)=>item.name.includes(search_table))" 
                                 draggable="true" 
                                 :class="{'selected-item':table.selected}"
-                                @dragstart="drag($event, table, database.name)"
                                 @click="move(table,database.name);table.selected = !table.selected"
                                 :key="database.name+table.name"
                             >
@@ -107,8 +86,6 @@ defineExpose({
             <div 
                 class="group" 
                 style="height:calc(100vh - 130px);margin-top:49px"
-                @drop="drop($event)"
-                @dragover="allowDrop($event)"
             >
                 <div 
                     class="item" 
