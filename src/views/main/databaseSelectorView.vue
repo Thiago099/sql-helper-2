@@ -38,7 +38,7 @@ function drop(ev:any) {
     var database: string = ev.dataTransfer.getData("database");
 
 
-    if(selected_tables.value.every((item:any) => item.table.table != table || item.database != database))
+    if(selected_tables.value.every((item:any) => item.table.name != table || item.database != database))
     {
         selected_tables.value.push({database,table})
     }
@@ -46,7 +46,7 @@ function drop(ev:any) {
 
 function move(table:any, database:string) {
 
-    if(selected_tables.value.every((item:any) => item.table.table != table.table || item.database != database))
+    if(selected_tables.value.every((item:any) => item.table.name != table.name || item.database != database))
     {
         selected_tables.value.push({database,table})
     }
@@ -77,26 +77,26 @@ defineExpose({
                 </div>
                 <div style="padding-top:5px">
                     <div 
-                        v-for="database of databases?.filter((item)=>item.database.includes(search_database))" 
-                        :key="database.database"
+                        v-for="database of databases?.filter((item)=>item.name.includes(search_database))" 
+                        :key="database.name"
                         
                     >
                         <div class="item item-database" @click="database.collapsed = !database.collapsed">
                             <i class="fa fa-caret-right" v-if="database.collapsed"></i> 
                             <i class="fa fa-caret-down" v-else></i>
-                            {{ database.database }}
+                            {{ database.name }}
                         </div>
                         <div v-if="!database.collapsed">
                             <div 
                                 class="item item-table" 
-                                v-for="table of database.tables?.filter((item)=>item.table.includes(search_table))" 
+                                v-for="table of database.tables?.filter((item)=>item.name.includes(search_table))" 
                                 draggable="true" 
                                 :class="{'selected-item':table.selected}"
-                                @dragstart="drag($event, table, database.database)"
-                                @click="move(table,database.database);table.selected = !table.selected"
-                                :key="database.database+table"
+                                @dragstart="drag($event, table, database.name)"
+                                @click="move(table,database.name);table.selected = !table.selected"
+                                :key="database.name+table.name"
                             >
-                                &nbsp;&nbsp;&nbsp;&nbsp;{{ table.table }}
+                                &nbsp;&nbsp;&nbsp;&nbsp;{{ table.name }}
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,7 @@ defineExpose({
                     :key="selected" 
                     @click="selected_tables.splice(index,1);selected.table.selected = false"
                 > 
-                    <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.table }}</span>
+                    <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                 </div>
             </div>
         </div>
