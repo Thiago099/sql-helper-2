@@ -71,7 +71,7 @@ function unuse(selected:any,index:number)
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                     </div>
                     <div class="item" draggable="true" v-for="selected of available_foreign_keys.filter(item=>!item.used)" :key="selected" @click="use_chained(selected)" > 
-                        <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':!selected.item.child,'item-child':selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
+                        <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@ function unuse(selected:any,index:number)
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                     </div>
                     <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of used_chained" :key="selected" @click="unuse_chined(selected,index)" > 
-                        <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':!selected.item.child,'item-child':selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
+                        <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                     </div>
                 </div>
             </div>
