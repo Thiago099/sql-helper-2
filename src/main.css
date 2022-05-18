@@ -17,6 +17,12 @@
 .item-table{
     color: rgb(86, 167, 54);
 }
+.item-parent{
+    color: rgb(76, 190, 218)
+}
+.item-child{
+    color: rgb(218, 76, 211)
+}
 .item:hover{
     background-color: #f5f5f5;
     

@@ -17,10 +17,8 @@ export async function find_foreign_keys(table:string, database:string)
             KEY_COLUMN_USAGE.TABLE_NAME = '${table}'
             OR KEY_COLUMN_USAGE.REFERENCED_TABLE_NAME = '${table}'
         )`,(err:any, rows:any)=>{
-            resolve({
-                child: rows.filter((item:any)=>item.TABLE_NAME == table),
-                parent: rows.filter((item:any)=>item.REFERENCED_TABLE_NAME == table)
-            })
+            rows.map((item:any)=>{item.child = item.TABLE_NAME == table ? true : false})
+            resolve(rows)
         })
     })
 }
