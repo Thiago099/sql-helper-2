@@ -38,21 +38,21 @@ function drop(ev:any) {
     var database: string = ev.dataTransfer.getData("database");
 
 
-    if(selected_tables.value.every((item:any) => item.table != table || item.database != database))
+    if(selected_tables.value.every((item:any) => item.table.table != table || item.database != database))
     {
         selected_tables.value.push({database,table})
     }
 }
 
-function move(table:string, database:string) {
+function move(table:any, database:string) {
 
-    if(selected_tables.value.every((item:any) => item.table != table || item.database != database))
+    if(selected_tables.value.every((item:any) => item.table.table != table.table || item.database != database))
     {
         selected_tables.value.push({database,table})
     }
     else
     {
-        selected_tables.value = selected_tables.value.filter((item:any) => item.table != table || item.database != database) as []
+        selected_tables.value = selected_tables.value.filter((item:any) => item.table.table != table.table || item.database != database) as []
     }
 }
 
