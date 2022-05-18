@@ -4,7 +4,7 @@ export const databases = ref()
 export async function load(){
     connection.value.query('SHOW DATABASES', async (err: any, results: any, fields: any) => {
         databases.value = await Promise.all(results.map(async(item:any) => { 
-            const current_database =  databases.value?.find((database:any) => database.database === item.Database) 
+            const current_database =  databases.value?.find((database:any) => database.name === item.Database) 
             return {
             name: item.Database,
             collapsed: current_database?.collapsed ?? true,
