@@ -74,7 +74,7 @@ function unuse(selected:any,index:number)
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                     </div>
                     <div v-for="item in available_foreign_keys" :key="item" v-show="!item.children.every(child=>child.used == true)">
-                        {{item.name}}
+                        <div class="item-group text-center">{{item.name}}</div>
                         <div class="item" draggable="true" v-for="selected of item.children.filter(item=>!item.used)" :key="selected" @click="use_chained(selected)" > 
                             <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                         </div>
@@ -87,7 +87,7 @@ function unuse(selected:any,index:number)
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                     </div>
                     <div v-for="item in used_chained" :key="item" v-show="item.children.length > 0">
-                        {{item.name}}
+                        <div class="item-group text-center">{{item.name}}</div>
                         <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of item.children" :key="selected" @click="unuse_chined(item.children,selected,index)" > 
                             <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                         </div>
@@ -106,5 +106,10 @@ function unuse(selected:any,index:number)
 .error-item:hover{
     border: 2px dashed rgb(255, 0, 0);
     background-color: rgb(250, 211, 211);
+}
+.item-group{
+    padding: 5px;
+    border-bottom: 2px solid rgb(200, 200, 200);
+    background-color: rgb(240, 240, 240);
 }
 </style>
