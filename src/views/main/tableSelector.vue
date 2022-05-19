@@ -70,6 +70,7 @@ function unuse(selected:any,index:number)
         <div class="row">
             <div class="col-6">
                 <div class="group" style="height:calc(100vh - 70px);">
+                    <div class="item-group text-center" v-if="selected_tables.filter(item=>!item.used).length > 0">Selected</div>
                     <div class="item" draggable="true" v-for="selected of selected_tables.filter(item=>!item.used)" :key="selected" @click="use(selected)" > 
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                     </div>
@@ -82,6 +83,7 @@ function unuse(selected:any,index:number)
                 </div>
             </div>
             <div class="col-6">
+                <div class="item-group text-center" v-if="used_tables.length > 0">Selected</div>
                 <div class="group" style="height:calc(100vh - 70px);">
                     <div class="item" draggable="true" v-for="(selected, index) of used_tables" :key="selected" @click="unuse(selected,index)" > 
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
