@@ -25,7 +25,7 @@ function use_chained(chained:any)
 {
     chained.used = true
 
-    const parent = used_chained.value.find((item: any) => item.name == chained.parent_name)
+    const parent = used_chained.value.find((item: any) => item.object == chained.parent)
     if(parent)
     {
         parent.children.push(chained)
