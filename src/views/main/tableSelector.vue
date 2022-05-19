@@ -46,13 +46,13 @@ function use_chained(chained:any)
                     parent : chained,
                     database: chained.database
                 }})}
-            available_foreign_keys.value.push(parent)
+        available_foreign_keys.value.push(parent)
     })
 }
-function unuse_chined(chained:any,index:number)
+function unuse_chined(children:any,chained:any,index:number)
 {
     chained.used = false
-    used_chained.value.splice(index, 1)
+    children.splice(index, 1)
     available_foreign_keys.value = available_foreign_keys.value.filter((item:any)=> item.object != chained)
 }
 
@@ -73,7 +73,7 @@ function unuse(selected:any,index:number)
                     <div class="item" draggable="true" v-for="selected of selected_tables.filter(item=>!item.used)" :key="selected" @click="use(selected)" > 
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                     </div>
-                    <div v-for="item in available_foreign_keys" :key="item">
+                    <div v-for="item in available_foreign_keys" :key="item" v-show="!item.children.every(child=>child.used == true)">
                         {{item.name}}
                         <div class="item" draggable="true" v-for="selected of item.children.filter(item=>!item.used)" :key="selected" @click="use_chained(selected)" > 
                             <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
@@ -86,9 +86,9 @@ function unuse(selected:any,index:number)
                     <div class="item" draggable="true" v-for="(selected, index) of used_tables" :key="selected" @click="unuse(selected,index)" > 
                         <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                     </div>
-                    <div v-for="item in used_chained" :key="item">
+                    <div v-for="item in used_chained" :key="item" v-show="item.children.length > 0">
                         {{item.name}}
-                        <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of item.children" :key="selected" @click="unuse_chined(selected,index)" > 
+                        <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of item.children" :key="selected" @click="unuse_chined(item.children,selected,index)" > 
                             <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                         </div>
                     </div>
