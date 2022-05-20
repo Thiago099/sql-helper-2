@@ -30,7 +30,7 @@ watch(
             let current:any;
             current = old?.find((old_item:any)=>old_item.item == item.item)
             item.collapsed = current?.collapsed ?? false;
-            item.alias = current?.table ?? item.table;
+            item.alias = current?.alias ?? item.table;
             item.fields = await new Promise(resolve => connection.value.query(`
             SELECT
                 COLUMN_NAME
