@@ -8,7 +8,7 @@ watch(
   [used_tables, used_chained],
   async () => 
     {
-    used.value = [...used_chained.value.reduce((previus:any, current:any)=>[...previus,...current.children],[])
+    used.value = [...used_chained.value.reduce((previous:any, current:any)=>[...previous,...current.children],[])
     .map((item: any) => {return{database:item.database, table:item.item.name, item:item.item}}),
     ...used_tables.value.map((item: any) => {return{database:item.database, table:item.table.name}})]
     .sort((a:any,b:any) => a.table.localeCompare(b.table))
