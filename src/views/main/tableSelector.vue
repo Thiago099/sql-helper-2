@@ -34,6 +34,7 @@ function use_chained(chained:any)
     {
         used_chained.value.push({
             name: chained.parent_name,
+            object: chained.parent,
             children: [chained]
         })
     }
@@ -63,6 +64,10 @@ function unuse(selected:any,index:number)
     available_foreign_keys.value = available_foreign_keys.value.filter((item:any)=> item.object != selected)
 }
 
+function find_repeat(object:any)
+{
+    return used_chained.value.some((item:any) => item.children.find((item:any)=> item.parent == object))
+}
 </script>
 
 <template>
@@ -77,7 +82,7 @@ function unuse(selected:any,index:number)
                     <div v-for="item in available_foreign_keys" :key="item" v-show="!item.children.every(child=>child.used == true)">
                         <div class="item-group text-center">{{item.name}}</div>
                         <div class="item" draggable="true" v-for="selected of item.children.filter(item=>!item.used)" :key="selected" @click="use_chained(selected)" > 
-                            <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
+                            {{find_repeat(selected)}} <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.child ? selected.item.REFERENCED_TABLE_NAME : selected.item.TABLE_NAME }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                         </div>
                     </div>
                 </div>
