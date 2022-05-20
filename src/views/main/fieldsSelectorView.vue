@@ -14,7 +14,7 @@ watch(
     .sort((a:any,b:any) => a.table.localeCompare(b.table))
     used.value.forEach(async(item:any)=>{
         item.collapsed = false;
-        item.alias = item?.item?.name;
+        item.alias = item.table;
         item.fields = await new Promise(resolve => connection.value.query(`
         SELECT
             COLUMN_NAME
@@ -36,13 +36,14 @@ function update_selected(event:any, items:any)
     })
 }
 
+
 </script>
 
 <template>
     <div>
         <div class="group" style="height:90vh">
             <div v-for="table in used" :key="table">
-                <div class="item" draggable="true" @click="table.collapsed = !table.collapsed">
+                <div class="item" @click="table.collapsed = !table.collapsed">
                     <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
                         <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table.fields.every(item=>item.selected == true)">
                     </div>
@@ -51,6 +52,7 @@ function update_selected(event:any, items:any)
                         <i class="fa fa-caret-down item-database" v-else></i>
                     </div>
                     <span class="item-database">{{ table.database }}</span>.<span class="item-table">{{ table.table }}</span> <span :class="{'item-parent':table?.item?.child,'item-child':!table?.item?.child}">{{ table?.item?.COLUMN_NAME }}</span>
+                    <input type="text" class="inline-input" v-model="table.alias" @click="$event.stopPropagation();">
                 </div>
                 <div v-show="!table.collapsed">
                     <div v-for="field in table.fields" :key="field" class="item">
@@ -61,3 +63,14 @@ function update_selected(event:any, items:any)
         </div>
     </div>
 </template>
+
+<style scoped>
+.inline-input{
+    border:1px solid #ccc;
+    border-radius: 3px;
+    outline:none;
+    font-size:12px;
+    text-align: center;
+    margin-left: 10px;
+}
+</style>
