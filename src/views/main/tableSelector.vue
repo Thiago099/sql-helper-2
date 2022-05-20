@@ -46,7 +46,7 @@ function use_chained(chained:any)
                     parent_name: name,
                     parent : chained,
                     database: chained.database
-                }})}
+                }}).filter((item:any) => is_valid(item))}
         available_foreign_keys.value.push(parent)
     })
 }
