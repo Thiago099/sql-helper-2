@@ -74,7 +74,7 @@ function collapse(table:any)
                 </div>
                 <div v-show="!table.collapsed">
                     <div v-for="field in table.fields" :key="field" class="item">
-                        <input style="margin-left:30px" type="checkbox" v-model="field.selected"> {{field.name}} 
+                        <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="field-name">{{field.name}}</span> 
                         <input type="text" class="inline-input" v-model="field.alias" @click="$event.stopPropagation();">
                     </div>
                 </div>
@@ -91,5 +91,8 @@ function collapse(table:any)
     font-size:12px;
     text-align: center;
     margin-left: 10px;
+}
+.field-name{
+    color: rgb(67, 0, 250)
 }
 </style>
