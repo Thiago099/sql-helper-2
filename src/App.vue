@@ -73,7 +73,7 @@ function open(e: any)
                         style="color:red;right:0px"
                         @click="clear();selectedView = 'connection'"
                         href="#"
-                    ><i class="fa fa-times"></i> Fechar</a>
+                    ><i class="fa fa-times"></i> Close</a>
                 </li>
             </ul>
         </div>
