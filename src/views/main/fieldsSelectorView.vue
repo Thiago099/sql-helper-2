@@ -8,23 +8,23 @@ watch(
     [used_tables, used_chained],
     async () => 
     {
-    used.value = [...used_chained.value.reduce((previous:any, current:any)=>[...previous,...current.children],[])
-    .map((item: any) => {return{database:item.database, table:item.item.name, item:item.item}}),
-    ...used_tables.value.map((item: any) => {return{database:item.database, table:item.table.name}})]
-    .sort((a:any,b:any) => a.table.localeCompare(b.table))
-    used.value.forEach(async(item:any)=>{
-        item.collapsed = false;
-        item.alias = item.table;
-        item.fields = await new Promise(resolve => connection.value.query(`
-        SELECT
-            COLUMN_NAME
-        FROM
-            information_schema.COLUMNS
-        WHERE
-            TABLE_SCHEMA = '${item.database}' AND TABLE_NAME = '${item.table}'`, (err:any, result:any) => {
-            resolve(result.map((item:any) => {return {name:item.COLUMN_NAME, selected:true, alias:item.COLUMN_NAME}}))
-        }))
-    })
+        used.value = [...used_chained.value.reduce((previous:any, current:any)=>[...previous,...current.children],[])
+        .map((item: any) => {return{database:item.database, table:item.item.name, item:item.item}}),
+        ...used_tables.value.map((item: any) => {return{database:item.database, table:item.table.name}})]
+        .sort((a:any,b:any) => a.table.localeCompare(b.table))
+        used.value.forEach(async(item:any)=>{
+            item.collapsed = false;
+            item.alias = item.table;
+            item.fields = await new Promise(resolve => connection.value.query(`
+            SELECT
+                COLUMN_NAME
+            FROM
+                information_schema.COLUMNS
+            WHERE
+                TABLE_SCHEMA = '${item.database}' AND TABLE_NAME = '${item.table}'`, (err:any, result:any) => {
+                resolve(result.map((item:any) => {return {name:item.COLUMN_NAME, selected:true, alias:item.COLUMN_NAME}}))
+            }))
+        })
     },
   { immediate: true } // <- if you want to access it immediately
 );
