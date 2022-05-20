@@ -17,10 +17,7 @@ watch(
 
         used.value.forEach(async(item:any)=>{
             let current:any;
-            if(old != null) {
-                current = old.find((old_item:any)=>old_item.item == item.item)
-            }
-            else current = null
+            current = old?.find((old_item:any)=>old_item.item == item.item)
             item.collapsed = current?.collapsed ?? false;
             item.alias = current?.table ?? item.table;
             item.fields = await new Promise(resolve => connection.value.query(`
@@ -32,7 +29,7 @@ watch(
                 TABLE_SCHEMA = '${item.database}' AND TABLE_NAME = '${item.table}'`, (err:any, result:any) => {
                 resolve(result.map((item:any) => {
                     const old_field = current?.fields?.find((old_item:any)=>old_item.name == item.COLUMN_NAME)
-                    return {name:item.COLUMN_NAME, selected:old_field.selected ?? true, alias:old_field.alias ?? item.COLUMN_NAME}
+                    return {name:item.COLUMN_NAME, selected:old_field?.selected ?? true, alias:old_field?.alias ?? item.COLUMN_NAME}
                 }))
             }))
         })
