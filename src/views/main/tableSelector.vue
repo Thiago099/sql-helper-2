@@ -74,7 +74,7 @@ function is_valid(object:any) :any
 {
     const list = trace(object)
     // find if there is duplicated
-    return list.filter((item:any,index:number)=> list.indexOf(item) != index)
+    return !(list.filter((item:any,index:number)=> list.indexOf(item) != index).length > 0)
 }
 </script>
 
@@ -91,7 +91,7 @@ function is_valid(object:any) :any
                     <div v-for="item in available_foreign_keys" :key="item" v-show="!item.children.every(child=>child.used == true)">
                         <div class="item-group text-center">{{item.name}}</div>
                         <div class="item" draggable="true" v-for="selected of item.children.filter(item=>!item.used)" :key="selected" @click="use_chained(selected)" > 
-                            {{ trace(selected)}}<span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
+                            {{ is_valid(selected)}}<span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                         </div>
                     </div>
                 </div>
