@@ -22,7 +22,7 @@ watch(
             information_schema.COLUMNS
         WHERE
             TABLE_SCHEMA = '${item.database}' AND TABLE_NAME = '${item.table}'`, (err:any, result:any) => {
-            resolve(result.map((item:any) => {return {name:item.COLUMN_NAME, selected:true}}))
+            resolve(result.map((item:any) => {return {name:item.COLUMN_NAME, selected:true, alias:item.COLUMN_NAME}}))
         }))
     })
     },
@@ -61,7 +61,7 @@ function collapse(table:any)
     <div>
         <div class="group" style="height:90vh">
             <div v-for="table in used" :key="table">
-                <div class="item" @click="collapse(table)">
+                <div class="item" @click="collapse(table)" draggable="true">
                     <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
                         <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table.fields.every(item=>item.selected == true)">
                     </div>
@@ -74,7 +74,8 @@ function collapse(table:any)
                 </div>
                 <div v-show="!table.collapsed">
                     <div v-for="field in table.fields" :key="field" class="item">
-                        <input style="margin-left:30px" type="checkbox" v-model="field.selected"> {{field.name}}
+                        <input style="margin-left:30px" type="checkbox" v-model="field.selected"> {{field.name}} 
+                        <input type="text" class="inline-input" v-model="field.alias" @click="$event.stopPropagation();">
                     </div>
                 </div>
             </div>
