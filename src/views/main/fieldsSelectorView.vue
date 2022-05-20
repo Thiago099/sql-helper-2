@@ -61,7 +61,7 @@ function collapse(table:any)
     <div>
         <div class="group" style="height:90vh">
             <div v-for="table in used" :key="table">
-                <div class="item" @click="collapse(table)" draggable="true">
+                <div class="item" @click="collapse(table)" >
                     <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
                         <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table.fields.every(item=>item.selected == true)">
                     </div>
