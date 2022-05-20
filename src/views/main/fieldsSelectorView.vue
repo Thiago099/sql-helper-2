@@ -63,7 +63,7 @@ function collapse(table:any)
             <div v-for="table in used" :key="table">
                 <div class="item" @click="collapse(table)" >
                     <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
-                        <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table.fields.every(item=>item.selected == true)">
+                        <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table?.fields?.every(item=>item.selected == true)">
                     </div>
                     <div style="display:inline;margin-right:5px;margin-left:10px">
                         <i class="fa fa-caret-right item-database" v-if="table.collapsed"></i> 
