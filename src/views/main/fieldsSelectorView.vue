@@ -10,9 +10,20 @@ watch(
     {
         const old = used.value
         used.value = [
-            ...used_tables.value.map((item: any) => {return{database:item.database, table:item.table.name,item:item}}),
+            ...used_tables.value.map((item: any) => {return{
+                    database:item.database, 
+                    table:item.table.name,
+                    parent:null,
+                    item:item
+                }}),
             ...used_chained.value.reduce((previous:any, current:any)=>[...previous,...current.children],[])
-            .map((item: any) => {return{database:item.database, table:item.item.name, item:item.item}})]
+            .map((item: any) => {return{
+                    database:item.database,
+                    table:item.item.name,
+                    parent:item.parent,
+                    item:item
+                }})
+        ]
         
 
         used.value.forEach(async(item:any)=>{
