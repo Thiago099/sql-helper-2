@@ -5,8 +5,8 @@ import { used } from './used-fields'
 import { connection } from '@/libraries/mysql'
 
 watch(
-  [used_tables, used_chained],
-  async () => 
+    [used_tables, used_chained],
+    async () => 
     {
     used.value = [...used_chained.value.reduce((previous:any, current:any)=>[...previous,...current.children],[])
     .map((item: any) => {return{database:item.database, table:item.item.name, item:item.item}}),
@@ -22,13 +22,19 @@ watch(
             information_schema.COLUMNS
         WHERE
             TABLE_SCHEMA = '${item.database}' AND TABLE_NAME = '${item.table}'`, (err:any, result:any) => {
-            resolve(result.map((item:any) => item.COLUMN_NAME))
+            resolve(result.map((item:any) => {return {name:item.COLUMN_NAME, selected:true}}))
         }))
     })
-    
-  },
+    },
   { immediate: true } // <- if you want to access it immediately
 );
+
+function update_selected(event:any, items:any)
+{
+    items.forEach((item:any) => {
+        item.selected = event.target.checked;
+    })
+}
 
 </script>
 
@@ -37,7 +43,10 @@ watch(
         <div class="group" style="height:90vh">
             <div v-for="table in used" :key="table">
                 <div class="item" draggable="true" @click="table.collapsed = !table.collapsed">
-                    <div style="display:inline;margin-right:5px">
+                    <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
+                        <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table.fields.every(item=>item.selected == true)">
+                    </div>
+                    <div style="display:inline;margin-right:5px;margin-left:10px">
                         <i class="fa fa-caret-right item-database" v-if="table.collapsed"></i> 
                         <i class="fa fa-caret-down item-database" v-else></i>
                     </div>
@@ -45,7 +54,7 @@ watch(
                 </div>
                 <div v-show="!table.collapsed">
                     <div v-for="field in table.fields" :key="field" class="item">
-                        &nbsp;&nbsp;&nbsp;&nbsp;{{field}}
+                        <input style="margin-left:30px" type="checkbox" v-model="field.selected"> {{field.name}}
                     </div>
                 </div>
             </div>
