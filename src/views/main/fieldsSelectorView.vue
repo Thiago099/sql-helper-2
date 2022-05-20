@@ -8,15 +8,21 @@ watch(
     [used_tables, used_chained],
     async () => 
     {
+        const old = used.value
         used.value = [
-            ...used_tables.value.map((item: any) => {return{database:item.database, table:item.table.name}}),
+            ...used_tables.value.map((item: any) => {return{database:item.database, table:item.table.name,item:item}}),
             ...used_chained.value.reduce((previous:any, current:any)=>[...previous,...current.children],[])
             .map((item: any) => {return{database:item.database, table:item.item.name, item:item.item}})]
         
 
         used.value.forEach(async(item:any)=>{
-            item.collapsed = false;
-            item.alias = item.table;
+            let current:any;
+            if(old != null) {
+                current = old.find((old_item:any)=>old_item.item == item.item)
+            }
+            else current = null
+            item.collapsed = current?.collapsed ?? false;
+            item.alias = current?.table ?? item.table;
             item.fields = await new Promise(resolve => connection.value.query(`
             SELECT
                 COLUMN_NAME
@@ -24,7 +30,10 @@ watch(
                 information_schema.COLUMNS
             WHERE
                 TABLE_SCHEMA = '${item.database}' AND TABLE_NAME = '${item.table}'`, (err:any, result:any) => {
-                resolve(result.map((item:any) => {return {name:item.COLUMN_NAME, selected:true, alias:item.COLUMN_NAME}}))
+                resolve(result.map((item:any) => {
+                    const old_field = current?.fields?.find((old_item:any)=>old_item.name == item.COLUMN_NAME)
+                    return {name:item.COLUMN_NAME, selected:old_field.selected ?? true, alias:old_field.alias ?? item.COLUMN_NAME}
+                }))
             }))
         })
     },
