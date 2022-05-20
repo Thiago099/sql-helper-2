@@ -35,7 +35,25 @@ function update_selected(event:any, items:any)
         item.selected = event.target.checked;
     })
 }
-
+const menu = ref<HTMLElement[]>()
+let lastMouseDown:any = null;
+document.addEventListener(
+    "mousedown",
+    event => {
+        lastMouseDown = event;
+    },
+    true // A capture handler
+);
+function prevent(e:Event) {
+    e.stopPropagation();
+    e.preventDefault();
+}
+function collapse(table:any)
+{
+    if(menu.value?.some(item => item.contains(lastMouseDown.target)))
+        return
+    table.collapsed = !table.collapsed;
+}
 
 </script>
 
@@ -43,7 +61,7 @@ function update_selected(event:any, items:any)
     <div>
         <div class="group" style="height:90vh">
             <div v-for="table in used" :key="table">
-                <div class="item" @click="table.collapsed = !table.collapsed">
+                <div class="item" @click="collapse(table)">
                     <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
                         <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table.fields.every(item=>item.selected == true)">
                     </div>
@@ -52,7 +70,7 @@ function update_selected(event:any, items:any)
                         <i class="fa fa-caret-down item-database" v-else></i>
                     </div>
                     <span class="item-database">{{ table.database }}</span>.<span class="item-table">{{ table.table }}</span> <span :class="{'item-parent':table?.item?.child,'item-child':!table?.item?.child}">{{ table?.item?.COLUMN_NAME }}</span>
-                    <input type="text" class="inline-input" v-model="table.alias" @click="$event.stopPropagation();">
+                    <input type="text" class="inline-input" v-model="table.alias" @click="$event.stopPropagation();" ref="menu">
                 </div>
                 <div v-show="!table.collapsed">
                     <div v-for="field in table.fields" :key="field" class="item">
