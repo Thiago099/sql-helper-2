@@ -4,6 +4,7 @@ import mainView from '@/views/main/databaseSelectorView.vue'
 import popupControl from '@/components/popup-control.vue'
 import loadControl from '@/components/load-control.vue'
 import tableSelector from '@/views/main/tableSelector.vue'
+import fieldsSelectorView from '@/views/main/fieldsSelectorView.vue'
 
 import { selected_tables } from '@/views/main/selected-tables'
 import { databases } from '@/views/main/load-databases'
@@ -23,6 +24,7 @@ const selectedTab = ref('Database')
 const tabs = ref([
     'Database',
     'Table',
+    'Fields'
 ])
 const loading = ref(false)
 import mysql from 'mysql'
@@ -76,6 +78,7 @@ function open(e: any)
         <connection-view v-show="selectedView == 'connection'" @open="open" />
         <main-view v-if="selectedView == 'main' && selectedTab == 'Database'"   ref="main" />
         <table-selector v-if="selectedView == 'main' && selectedTab == 'Table'" ref="table" />
+        <fields-selector-view v-if="selectedView == 'main' && selectedTab == 'Fields'" ref="fields" />
     </div>
 </template>
 
