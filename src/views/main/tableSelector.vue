@@ -12,7 +12,11 @@ function use(selected:any)
     selected.used = true
     used_tables.value.push(selected)
     find_foreign_keys(selected.table.name, selected.database).then((result:any) => {
-        const parent = { name:selected.table.name, object:selected, children:result.map((item:any) =>{ return {
+        const parent = { 
+            name:selected.table.name,
+            object:selected,
+            collapsed:false,
+            children:result.map((item:any) =>{ return {
                     item,
                     used:false,
                     parent_name: selected.table.name,
@@ -37,12 +41,17 @@ function use_chained(chained:any)
         used_chained.value.push({
             name: chained.parent_name,
             object: chained.parent,
+            collapsed:false,
             children: [chained]
         })
     }
     const name = chained.item.child ? chained.item.REFERENCED_TABLE_NAME : chained.item.TABLE_NAME
     find_foreign_keys(name, chained.database).then((result:any) => {
-        const parent = { name,object:chained, children:result.map((item:any) =>{ return {
+        const parent = { 
+            name,
+            object:chained,
+            collapsed:false,
+            children:result.map((item:any) =>{ return {
                     item,
                     used:false,
                     parent_name: name,
@@ -84,6 +93,8 @@ const formSearchChild = ref('')
 const toSearchParent = ref('')
 const toSearchChild = ref('')
 
+const collapsedFrom = ref(false)
+const collapsedTo = ref(false)
 </script>
 
 <template>
@@ -108,16 +119,28 @@ const toSearchChild = ref('')
                 />
                 <div class="group" style="height:calc(100vh - 130px);">
                     <div v-show="'selected'.includes(formSearchParent)">
-                        <div class="item-group text-center" v-if="selected_tables.filter(item=>!item.used && item.table.name.includes(formSearchChild)).length > 0">selected</div>
-                        <div class="item" draggable="true" v-for="selected of selected_tables.filter(item=>!item.used && item.table.name.includes(formSearchChild))" :key="selected" @click="use(selected)" > 
-                            <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
+                        <div class="item-group text-center" draggable="true" @click="collapsedFrom = !collapsedFrom" v-if="selected_tables.filter(item=>!item.used && item.table.name.includes(formSearchChild)).length > 0">
+                        <i class="fa fa-caret-right" v-if="collapsedFrom"></i> 
+                        <i class="fa fa-caret-down" v-else></i>
+                        selected
+                        </div>
+                        <div v-show="!collapsedFrom">
+                            <div class="item" draggable="true" v-for="selected of selected_tables.filter(item=>!item.used && item.table.name.includes(formSearchChild))" :key="selected" @click="use(selected)" > 
+                                <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
+                            </div>
                         </div>
                     </div>
                     <div v-for="item in available_foreign_keys" :key="item" v-show="!item.children.every(child=>child.used == true || !child.item.name.includes(formSearchChild))&&item.name.includes(formSearchParent)" >
-                        <div class="item-group text-center">{{item.name}}</div>
-                        <div class="item" draggable="true" v-for="selected of item.children.filter(item=>!item.used && item.item.name.includes(formSearchChild))" :key="selected" @click="use_chained(selected)" > 
-                            <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
-                        </div>
+                        <div class="item-group text-center" draggable="true" @click="item.collapsed = !item.collapsed">
+                            <i class="fa fa-caret-right" v-if="item.collapsed"></i> 
+                            <i class="fa fa-caret-down" v-else></i>
+                            {{item.name}}
+                            </div>
+                            <div v-show="!item.collapsed">
+                                <div class="item" draggable="true" v-for="selected of item.children.filter(item=>!item.used && item.item.name.includes(formSearchChild))" :key="selected" @click="use_chained(selected)" > 
+                                    <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -139,16 +162,28 @@ const toSearchChild = ref('')
                 />
                 <div class="group" style="height:calc(100vh - 130px);">
                     <div v-show="'selected'.includes(toSearchParent)">
-                        <div class="item-group text-center" v-if="used_tables.filter(item=>item.table.name.includes(toSearchChild)).length > 0">Selected</div>
-                        <div class="item" draggable="true" v-for="(selected, index) of used_tables.filter(item=>item.table.name.includes(toSearchChild))" :key="selected" @click="unuse(selected,index)" > 
-                            <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
+                        <div class="item-group text-center" draggable="true" @click="collapsedTo = !collapsedTo"  v-if="used_tables.filter(item=>item.table.name.includes(toSearchChild)).length > 0">
+                        <i class="fa fa-caret-right" v-if="collapsedTo"></i> 
+                        <i class="fa fa-caret-down" v-else></i>
+                        Selected
+                        </div>
+                        <div v-show="!collapsedTo">
+                            <div class="item" draggable="true" v-for="(selected, index) of used_tables.filter(item=>item.table.name.includes(toSearchChild))" :key="selected" @click="unuse(selected,index)" > 
+                                <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
+                            </div>
                         </div>
                     </div>
                     <div v-for="item in used_chained.filter(item=>item.name.includes(toSearchParent))" :key="item" v-show="item.children.filter(item=>item.item.name.includes(toSearchChild)).length > 0">
-                        <div class="item-group text-center">{{item.name}}</div>
-                        <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of item.children.filter(item=>item.item.name.includes(toSearchChild))" :key="selected" @click="unuse_chined(item.children,selected,index)" > 
-                            <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
-                        </div>
+                        <div class="item-group text-center" draggable="true" @click="item.collapsed = !item.collapsed">
+                            <i class="fa fa-caret-right" v-if="item.collapsed"></i> 
+                            <i class="fa fa-caret-down" v-else></i>
+                            {{item.name}}
+                            </div>
+                            <div v-show="!item.collapsed">
+                                <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of item.children.filter(item=>item.item.name.includes(toSearchChild))" :key="selected" @click="unuse_chined(item.children,selected,index)" > 
+                                    <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -166,6 +201,7 @@ const toSearchChild = ref('')
     background-color: rgb(250, 211, 211);
 }
 .item-group{
+    cursor: pointer;
     padding: 5px;
     border-bottom: 2px solid rgb(200, 200, 200);
     background-color: rgb(240, 240, 240);
