@@ -43,9 +43,6 @@ function move(table:any, database:string) {
     clear_used_tables()
 }
 
-defineExpose({
-    load,
-});
 </script>
 
 <template>

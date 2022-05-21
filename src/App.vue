@@ -6,22 +6,28 @@ import loadControl from '@/components/load-control.vue'
 import tableSelector from '@/views/main/tableSelector.vue'
 import fieldsSelectorView from '@/views/main/fieldsSelectorView.vue'
 import resultView from '@/views/main/resultView.vue'
+import { clear as clear_used_tables } from './views/main/used-tables'
+import { load } from './views/main/load-databases'
 
 import { selected_tables } from '@/views/main/selected-tables'
 import { databases } from '@/views/main/load-databases'
+import { ref, nextTick } from 'vue'
+
+const popup = ref()
+const main = ref()
+const selectedView = ref('connection')
+const selectedTab = ref('Database')
 
 function clear()
 {
     databases.value = null
     selected_tables.value = []
+    selectedTab.value = 'Database'
+    clear_used_tables()
 }
 
 
-import { ref, nextTick } from 'vue'
-const popup = ref()
-const main = ref()
-const selectedView = ref('connection')
-const selectedTab = ref('Database')
+
 const tabs = ref([
     'Database',
     'Table',
@@ -50,7 +56,7 @@ function open(e: any)
         console.log('connected as id ' + con.threadId);
         selectedView.value = 'main'
         loading.value = false
-        nextTick(()=>main.value.load())
+        nextTick(()=>load())
         
     });
     
