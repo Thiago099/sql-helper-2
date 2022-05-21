@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineExpose, ref } from 'vue'
 
-import searchInput from '@/components/multisearch-input.vue'
+import MultiSearchInput from '@/components/multisearch-input.vue'
 import { clear as clear_used_tables } from './used-tables'
 
 import { load, databases } from './load-databases'
@@ -47,9 +47,19 @@ defineExpose({
 <div>
     <div class="row">
         <div class="col-6">
-            <search-input 
+            <multi-search-input 
                 @database="search_database = $event"
                 @table="search_table = $event"
+                :fields="[
+                    {
+                        name:'database',
+                        icon:'fa-database'
+                    },
+                    {
+                        name:'table',
+                        icon:'fa-table'
+                    }
+                ]"
             />
             <div class="group" style="height:calc(100vh - 130px)">
                 <div class="header-group">

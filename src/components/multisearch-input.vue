@@ -1,8 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-//props value
+import { ref, toRefs, defineProps } from 'vue'
 
-const selected = ref('database')
+interface fieldInput
+{
+    icon:string
+    name:string
+}
+
+const props = defineProps<{fields:fieldInput[]}>()
+
+const { fields } = toRefs(props)
+
+const selected = ref(fields.value[0].name)
 
 </script>
 
@@ -11,10 +20,8 @@ const selected = ref('database')
         <div class="search-group">
             <i class="fa fa-search"></i>
             <div class="input-group">
-                <input type="text" class="form-control" v-show="selected == 'database'" @input="$emit('database',$event.target.value)">
-                <input type="text" class="form-control" v-show="selected == 'table'" @input="$emit('table',$event.target.value)">
-                <button class="btn" :class="{'btn-primary':selected == 'database','btn-light':selected != 'database'}" @click="selected = 'database'"><i class="fa fa-database"></i></button>
-                <button class="btn" :class="{'btn-primary':selected == 'table','btn-light':selected != 'table'}" @click="selected = 'table'"><i class="fa fa-table"></i></button>
+                <input type="text" class="form-control" v-for="{name} in fields" :key="name" v-show="selected == name" @input="$emit(name,$event.target.value)">
+                <button class="btn" v-for="{name, icon} in fields" :key="name" :class="{'btn-primary':selected == name,'btn-light':selected != name}" @click="selected = name"><i class="fa" :class="icon"></i></button>
             </div>
         </div>
     </div>
