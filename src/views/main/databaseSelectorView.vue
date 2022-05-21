@@ -76,7 +76,7 @@ defineExpose({
                         :key="database.name"
                         
                     >
-                        <div class="item item-database" @click="database.collapsed = !database.collapsed">
+                        <div class="item item-database collapsable" @click="database.collapsed = !database.collapsed">
                             <i class="fa fa-caret-right" v-if="database.collapsed"></i> 
                             <i class="fa fa-caret-down" v-else></i>
                             {{ database.name }}

@@ -48,7 +48,7 @@ function build(parent:any=null)
     const parent_alias = parent?.alias
     const parent_has_alias = parent?.alias != parent?.table
     const current_parent = parent?.item?.item 
-    const parent_class = current_parent?current_parent.child?'item-child':'item-parent':'item-table'
+    const parent_class = current_parent?!current_parent.child?'item-child':'item-parent':'item-table'
     children.forEach((item:any) => {
         const current = item?.item?.item
         const alias = item.alias

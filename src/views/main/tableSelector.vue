@@ -125,7 +125,7 @@ const collapsedTo = ref(false)
                         selected
                         </div>
                         <div v-show="!collapsedFrom">
-                            <div class="item" draggable="true" v-for="selected of selected_tables.filter(item=>!item.used && item.table.name.includes(formSearchChild))" :key="selected" @click="use(selected)" > 
+                            <div style="margin-bottom:15px" class="item" draggable="true" v-for="selected of selected_tables.filter(item=>!item.used && item.table.name.includes(formSearchChild))" :key="selected" @click="use(selected)" > 
                                 <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                             </div>
                         </div>
@@ -136,7 +136,7 @@ const collapsedTo = ref(false)
                             <i class="fa fa-caret-down" v-else></i>
                             {{item.name}}
                             </div>
-                            <div v-show="!item.collapsed">
+                            <div v-show="!item.collapsed" style="margin-bottom:15px">
                                 <div class="item" draggable="true" v-for="selected of item.children.filter(item=>!item.used && item.item.name.includes(formSearchChild))" :key="selected" @click="use_chained(selected)" > 
                                     <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                                 </div>
@@ -168,7 +168,7 @@ const collapsedTo = ref(false)
                         Selected
                         </div>
                         <div v-show="!collapsedTo">
-                            <div class="item" draggable="true" v-for="(selected, index) of used_tables.filter(item=>item.table.name.includes(toSearchChild))" :key="selected" @click="unuse(selected,index)" > 
+                            <div style="margin-bottom:15px" class="item" draggable="true" v-for="(selected, index) of used_tables.filter(item=>item.table.name.includes(toSearchChild))" :key="selected" @click="unuse(selected,index)" > 
                                 <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
                             </div>
                         </div>
@@ -179,7 +179,7 @@ const collapsedTo = ref(false)
                             <i class="fa fa-caret-down" v-else></i>
                             {{item.name}}
                             </div>
-                            <div v-show="!item.collapsed">
+                            <div v-show="!item.collapsed" style="margin-bottom:15px">
                                 <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of item.children.filter(item=>item.item.name.includes(toSearchChild))" :key="selected" @click="unuse_chined(item.children,selected,index)" > 
                                     <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
                                 </div>

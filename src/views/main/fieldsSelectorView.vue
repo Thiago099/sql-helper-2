@@ -77,7 +77,7 @@ function collapse(table:any)
 
 const searchTable = ref<string>('')
 const searchField = ref<string>('')   
-
+const current_used = {}
 </script>
 
 <template>
@@ -109,11 +109,13 @@ const searchField = ref<string>('')
                     </div>
                     <span class="item-database">{{ table.database }}</span>.<span :class="{'item-table':table?.item?.item?.child==undefined,'item-child':table?.item?.item?.child == false,'item-parent':table?.item?.item?.child}">{{ table.table }}</span> 
                     <div class="input-group">
-                    <input type="text" class="inline-input border-green" :class="{'border-red':used.filter((item:any)=>item.alias == table.alias).length>1}" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> <button class="btn btn-success append-button" @click="$event.stopPropagation();table.alias = table.table"><div><i class="fa fa-rotate-left"></i></div></button> </div> <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database">{{used.find(item=>item.item == table.parent)?.database}}</span>.{{used.find(item=>item.item == table.parent)?.alias}}.{{table?.item?.item?.COLUMN_NAME}}</span>
+                    <input type="text" class="inline-input border-green" :class="{'border-red':used.filter((item:any)=>item.alias == table.alias).length>1}" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> 
+                    <button class="btn btn-success append-button" @click="$event.stopPropagation();table.alias = table.table"><div><i class="fa fa-rotate-left"></i></div></button></div> 
+                    <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database"><span :set="current_used = used.find(item => item.item == table.parent)"></span> {{current_used?.database}}</span>.<span :class="{'item-table':!current_used?.item?.item?.child,'item-child':current_used?.item?.item?.child == false,'item-parent':current_used?.item?.item?.child}">{{current_used?.alias}}</span>.{{table?.item?.item?.COLUMN_NAME}}</span>
                     
                     
                 </div>
-                <div v-show="!table.collapsed">
+                <div v-show="!table.collapsed" style="margin-bottom:15px">
                     <div v-for="field in table.fields?.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
                         <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="item-field">{{field.name}}</span> 
                         <div class="input-group">
