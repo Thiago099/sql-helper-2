@@ -108,7 +108,7 @@ const searchField = ref<string>('')
                         <i class="fa fa-caret-down item-database" v-else></i>
                     </div>
                     <span class="item-database">{{ table.database }}</span>.<span class="item-table">{{ table.table }}</span> 
-                    <input type="text" class="inline-input" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> <span class="item-database">{{used.find(item=>item.item == table.parent)?.database}}</span>.{{used.find(item=>item.item == table.parent)?.alias}}.{{table?.item?.item?.COLUMN_NAME}}
+                    <input type="text" class="inline-input" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database">{{used.find(item=>item.item == table.parent)?.database}}</span>.{{used.find(item=>item.item == table.parent)?.alias}}.{{table?.item?.item?.COLUMN_NAME}}</span>
                 </div>
                 <div v-show="!table.collapsed">
                     <div v-for="field in table.fields?.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
