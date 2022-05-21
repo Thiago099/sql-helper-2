@@ -155,6 +155,8 @@ const searchField = ref<string>('')
     display: inline;
 }
 .append-button{
+    margin-left: -5px!important;
+    margin-top:-2px;
     height: 22px;
     width: 10px;
 }
