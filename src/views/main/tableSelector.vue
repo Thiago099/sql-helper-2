@@ -98,11 +98,11 @@ const toSearchChild = ref('')
                         
                         {
                             name:'table',
-                            icon:'fa-puzzle-piece'
+                            icon:'fa-arrow-up'
                         },
                         {
                             name:'field',
-                            icon:'fa-rocket'
+                            icon:'fa-arrow-down'
                         }
                     ]"
                 />
@@ -129,11 +129,11 @@ const toSearchChild = ref('')
                         
                         {
                             name:'table',
-                            icon:'fa-puzzle-piece'
+                            icon:'fa-arrow-up'
                         },
                         {
                             name:'field',
-                            icon:'fa-rocket'
+                            icon:'fa-arrow-down'
                         }
                     ]"
                 />
