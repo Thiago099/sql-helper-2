@@ -1,4 +1,4 @@
-# electron-vue-jest
+# sql-helper-2
 
 This project is in development and is not functional yet
 
