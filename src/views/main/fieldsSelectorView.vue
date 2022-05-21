@@ -78,6 +78,19 @@ function collapse(table:any)
 const searchTable = ref<string>('')
 const searchField = ref<string>('')   
 const current_used = {}
+
+function collapse_all()
+{
+    used.value.forEach((item:any) => {
+        item.collapsed = false;
+    });
+}
+function expand()
+{
+    used.value.forEach((item:any) => {
+        item.collapsed = true;
+    });
+}
 </script>
 
 <template>
@@ -98,28 +111,34 @@ const current_used = {}
                     ]"
                 />
         <div class="group" style="height:calc(100vh - 130px)">
-            <div v-for="table in used?.filter(item=>item.alias.includes(searchTable))" :key="table">
-                <div class="item collapsable" @click="collapse(table)" >
-                    <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
-                        <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table?.fields?.every(item=>item.selected == true)">
-                    </div>
-                    <div style="display:inline;margin-right:5px;margin-left:10px">
-                        <i class="fa fa-caret-right item-database" v-if="table.collapsed"></i> 
-                        <i class="fa fa-caret-down item-database" v-else></i>
-                    </div>
-                    <span class="item-database">{{ table.database }}</span>.<span :class="{'item-table':table?.item?.item?.child==undefined,'item-child':table?.item?.item?.child == false,'item-parent':table?.item?.item?.child}">{{ table.table }}</span> 
-                    <div class="input-group">
-                    <input type="text" class="inline-input border-green" :class="{'border-red':used.filter((item:any)=>item.alias == table.alias).length>1}" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> 
-                    <button class="btn btn-success append-button" @click="$event.stopPropagation();table.alias = table.table"><div><i class="fa fa-rotate-left"></i></div></button></div> 
-                    <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database"><span :set="current_used = used.find(item => item.item == table.parent)"></span> {{current_used?.database}}</span>.<span :class="{'item-table':!current_used?.item?.item?.child,'item-child':current_used?.item?.item?.child == false,'item-parent':current_used?.item?.item?.child}">{{current_used?.alias}}</span>.{{table?.item?.item?.COLUMN_NAME}}</span>
-                    
-                    
-                </div>
-                <div v-show="!table.collapsed" style="margin-bottom:15px">
-                    <div v-for="field in table.fields?.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
-                        <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="item-field">{{field.name}}</span> 
+            <div class="header-group"  style="z-index:100">
+                <i class="fa fa-minus-square collapse-icon" @click="expand()"></i>
+                <i class="fa fa-plus-square collapse-icon" @click="collapse_all()"></i>
+            </div>
+            <div>
+                <div v-for="table in used?.filter(item=>item.alias.includes(searchTable))" :key="table">
+                    <div class="item collapsable" @click="collapse(table)" >
+                        <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
+                            <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table?.fields?.every(item=>item.selected == true)">
+                        </div>
+                        <div style="display:inline;margin-right:5px;margin-left:10px">
+                            <i class="fa fa-caret-right item-database" v-if="table.collapsed"></i> 
+                            <i class="fa fa-caret-down item-database" v-else></i>
+                        </div>
+                        <span class="item-database">{{ table.database }}</span>.<span :class="{'item-table':table?.item?.item?.child==undefined,'item-child':table?.item?.item?.child == false,'item-parent':table?.item?.item?.child}">{{ table.table }}</span> 
                         <div class="input-group">
-                            <input type="text" spellcheck="false" class="inline-input border-blue" v-model="field.alias" @click="$event.stopPropagation();"> <button class="btn btn-primary append-button" @click="field.alias = table.alias"><div><i class="fa fa-table"></i></div></button>   <button class="btn btn-success append-button" @click="field.alias = field.name"><div><i class="fa fa-rotate-left"></i></div></button>  
+                        <input type="text" class="inline-input border-green" :class="{'border-red':used.filter((item:any)=>item.alias == table.alias).length>1}" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> 
+                        <button class="btn btn-success append-button" @click="$event.stopPropagation();table.alias = table.table"><div><i class="fa fa-rotate-left"></i></div></button></div> 
+                        <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database"><span :set="current_used = used.find(item => item.item == table.parent)"></span> {{current_used?.database}}</span>.<span :class="{'item-table':!current_used?.item?.item?.child,'item-child':current_used?.item?.item?.child == false,'item-parent':current_used?.item?.item?.child}">{{current_used?.alias}}</span>.{{table?.item?.item?.COLUMN_NAME}}</span>
+                        
+                        
+                    </div>
+                    <div v-show="!table.collapsed" style="margin-bottom:15px">
+                        <div v-for="field in table.fields?.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
+                            <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="item-field">{{field.name}}</span> 
+                            <div class="input-group">
+                                <input type="text" spellcheck="false" class="inline-input border-blue" v-model="field.alias" @click="$event.stopPropagation();"> <button class="btn btn-primary append-button" @click="field.alias = table.alias"><div><i class="fa fa-table"></i></div></button>   <button class="btn btn-success append-button" @click="field.alias = field.name"><div><i class="fa fa-rotate-left"></i></div></button>  
+                            </div>
                         </div>
                     </div>
                 </div>

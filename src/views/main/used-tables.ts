@@ -5,6 +5,9 @@ export const used_chained = ref<any>([])
 
 export function clear()
 {
+    used_tables.value.forEach((element:any) => {
+        element.used = false
+    });
     used_tables.value = []
     available_foreign_keys.value = []
     used_chained.value = []

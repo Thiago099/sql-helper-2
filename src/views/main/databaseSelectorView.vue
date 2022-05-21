@@ -100,22 +100,7 @@ defineExpose({
 </template>
 <style scoped>
 
-.collapse-icon{
-    padding:2px;
-    font-size: 15pt;
-    transition: all 0.2s;
-    cursor: pointer;
-    color: rgb(76, 190, 218)
-}
 
-.header-group{
-    padding: 5px;
-    background-color:white;
-    border-bottom: 2px solid #e9ecef;
-    width:100%;
-    position: sticky;
-    top: 0;
-}
 
 
 .selected-item{

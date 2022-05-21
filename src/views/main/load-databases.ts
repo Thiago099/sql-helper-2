@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { connection } from '@/libraries/mysql'
 export const databases = ref()
+import { clear as clear_used_tables } from './used-tables'
 export async function load(){
     connection.value.query('SHOW DATABASES', async (err: any, results: any, fields: any) => {
         databases.value = await Promise.all(results.map(async(item:any) => { 
@@ -27,4 +28,5 @@ export async function load(){
             })
         }}))
     });
+    clear_used_tables()
 }

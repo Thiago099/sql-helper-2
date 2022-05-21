@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { ref, toRefs, defineProps } from 'vue'
-//props value
 
-const props = defineProps<{value:string}>()
-const { value } = toRefs(props)
 
 </script>
 
