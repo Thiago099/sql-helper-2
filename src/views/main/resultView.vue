@@ -60,9 +60,13 @@ function build(parent:any=null)
     })
 }
 const root = used.value.find((item:any) => item.parent == null)
-const alias = root?.alias
-const has_alias = root?.alias != root?.table
-const result = `<span class="item-field">SELECT</span> ${select} <span class="item-field">FROM</span> <span class="item-table">${root.table}</span>${has_alias?' <span class="item-field">AS</span> <span class="item-table">'+alias+'</span> ':''}<br>${join}`
+let result = ''
+if(root)
+{
+    const alias = root?.alias
+    const has_alias = root?.alias != root?.table
+    result = `<span class="item-field">SELECT</span> ${select} <span class="item-field">FROM</span> <span class="item-table">${root.table}</span>${has_alias?' <span class="item-field">AS</span> <span class="item-table">'+alias+'</span> ':''}<br>${join}`
+}
 
 const element = ref()
 onMounted(() => {

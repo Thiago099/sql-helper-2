@@ -2,6 +2,7 @@
 import { defineExpose, ref } from 'vue'
 
 import searchInput from '@/components/multisearch-input.vue'
+import { clear as clear_used_tables } from './used-tables'
 
 import { load, databases } from './load-databases'
 
@@ -34,6 +35,7 @@ function move(table:any, database:string) {
     {
         selected_tables.value = selected_tables.value.filter((item:any) => item.table.name != table.name || item.database != database) as []
     }
+    clear_used_tables()
 }
 
 defineExpose({
