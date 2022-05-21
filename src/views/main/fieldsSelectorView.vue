@@ -77,7 +77,7 @@ function collapse(table:any)
 
 const searchTable = ref<string>('')
 const searchField = ref<string>('')   
-const current_used = {}
+const current_used:any = {}
 
 function collapse_all()
 {
@@ -129,7 +129,7 @@ function expand()
                         <div class="input-group">
                         <input type="text" class="inline-input border-green" :class="{'border-red':used.filter((item:any)=>item.alias == table.alias).length>1}" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> 
                         <button class="btn btn-success append-button" @click="$event.stopPropagation();table.alias = table.table"><div><i class="fa fa-rotate-left"></i></div></button></div> 
-                        <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database"><span :set="current_used = used.find(item => item.item == table.parent)"></span> {{current_used?.database}}</span>.<span :class="{'item-table':!current_used?.item?.item?.child,'item-child':current_used?.item?.item?.child == false,'item-parent':current_used?.item?.item?.child}">{{current_used?.alias}}</span>.{{table?.item?.item?.COLUMN_NAME}}</span>
+                        <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database"><span :set="current_used = used.find(item => item.item == table.parent)"></span> {{current_used?.database}}</span>.<span :class="{'item-table':!current_used?.item?.item?.child,'item-child':current_used?.item?.item?.child == false,'item-parent':current_used?.item?.item?.child}">{{current_used?.alias}}</span>.<span class="item-field">{{table?.item?.item?.COLUMN_NAME}}</span></span>
                         
                         
                     </div>

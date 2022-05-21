@@ -28,6 +28,12 @@
     
 }
 
+.item-field{
+    color: #1100ff;
+}
+.sql-syntax {
+    color: rgb(218, 76, 76);
+}
 
 .header-group{
     padding: 5px;

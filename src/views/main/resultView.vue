@@ -15,7 +15,7 @@ for(const table of used.value)
     {
         if(field.selected)
         {
-            table_select += `\`<span class="${current_class}">${table.alias}</span>\`.\`${field.name}\`${field.name != field.alias? ' `' + field.alias + '`' : ''},<br>`
+            table_select += `\`<span class="${current_class}">${table.alias}</span>\`.\`<span class="item-field">${field.name}</span>\`${field.name != field.alias? ' <span class="sql-syntax">AS</span> `<span class="item-field">' + field.alias + '</span>`' : ''},<br>`
         }
         else
         {
@@ -54,8 +54,8 @@ function build(parent:any=null)
         const alias = item.alias
         const has_alias = alias != item.table
         if(current)
-        join += current.child ? `<span class="item-field">INNER JOIN </span>\`<span class='item-parent'>${current.REFERENCED_TABLE_NAME}</span>\`${has_alias?' <span class="item-field">AS</span> `<span class="item-parent">'+alias+'</span>` ':''} <span class="item-field">ON</span> \`<span class='item-parent'>${has_alias?alias:current.REFERENCED_TABLE_NAME}</span>\`.\`${current.REFERENCED_COLUMN_NAME}\` = \`<span class="${parent_class}">${parent_has_alias?parent_alias:current.TABLE_NAME}</span>\`.\`${current.COLUMN_NAME}\`<br>` :
-                                `<span class="item-field">INNER JOIN </span>\`<span class='item-child'>${current.TABLE_NAME}</span>\`${has_alias?' <span class="item-field">AS</span> `<span class="item-child">'+alias+'</span>` ':''}  <span class="item-field">ON</span> \`<span class='item-child'>${has_alias?alias:current.TABLE_NAME}</span>\`.\`${current.COLUMN_NAME}\` = \`<span class="${parent_class}">${parent_has_alias?parent_alias:current.REFERENCED_TABLE_NAME}</span>\`.\`${current.REFERENCED_COLUMN_NAME}\`<br>`
+        join += current.child ? `<span class="sql-syntax">INNER JOIN </span>\`<span class='item-parent'>${current.REFERENCED_TABLE_NAME}</span>\`${has_alias?' <span class="sql-syntax">AS</span> `<span class="item-parent">'+alias+'</span>` ':''} <span class="sql-syntax">ON</span> \`<span class='item-parent'>${has_alias?alias:current.REFERENCED_TABLE_NAME}</span>\`.\`<span class="item-field">${current.REFERENCED_COLUMN_NAME}</span>\` = \`<span class="${parent_class}">${parent_has_alias?parent_alias:current.TABLE_NAME}</span>\`.\`<span class="item-field">${current.COLUMN_NAME}</span>\`<br>` :
+                                `<span class="sql-syntax">INNER JOIN </span>\`<span class='item-child'>${current.TABLE_NAME}</span>\`${has_alias?' <span class="sql-syntax">AS</span> `<span class="item-child">'+alias+'</span>` ':''}  <span class="sql-syntax">ON</span> \`<span class='item-child'>${has_alias?alias:current.TABLE_NAME}</span>\`.\`<span class="item-field">${current.COLUMN_NAME}</span>\` = \`<span class="${parent_class}">${parent_has_alias?parent_alias:current.REFERENCED_TABLE_NAME}</span>\`.\`<span class="item-field">${current.REFERENCED_COLUMN_NAME}</span>\`<br>`
         build(item)
     })
 }
@@ -65,7 +65,7 @@ if(root)
 {
     const alias = root?.alias
     const has_alias = root?.alias != root?.table
-    result = `<span class="item-field">SELECT</span> ${select} <span class="item-field">FROM</span> <span class="item-table">${root.table}</span>${has_alias?' <span class="item-field">AS</span> <span class="item-table">'+alias+'</span> ':''}<br>${join}`
+    result = `<span class="sql-syntax">SELECT</span> ${select} <span class="sql-syntax">FROM</span> <span class="item-table">${root.table}</span>${has_alias?' <span class="sql-syntax">AS</span> <span class="item-table">'+alias+'</span> ':''}<br>${join}`
 }
 
 const element = ref()
@@ -96,4 +96,6 @@ onMounted(() => {
     caret-color: transparent;
     outline: none;
 }
+
+
 </style>

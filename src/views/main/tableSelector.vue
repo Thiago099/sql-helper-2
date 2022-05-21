@@ -173,7 +173,7 @@ function collapse_to()
                             </div>
                             <div v-show="!item.collapsed" style="margin-bottom:15px">
                                 <div class="item" draggable="true" v-for="selected of item.children.filter(item=>!item.used && item.item.name.includes(formSearchChild))" :key="selected" @click="use_chained(selected)" > 
-                                    <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
+                                    <span class="item-database">{{ selected.database }}</span>.<span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.name }}</span>.<span class="item-field">{{ selected.item.COLUMN_NAME }}</span>
                                 </div>
                             </div>
                     </div>
@@ -220,7 +220,7 @@ function collapse_to()
                             </div>
                             <div v-show="!item.collapsed" style="margin-bottom:15px">
                                 <div class="item" :class="{'error-item':!selected.parent.used}" draggable="true" v-for="(selected, index) of item.children.filter(item=>item.item.name.includes(toSearchChild))" :key="selected" @click="unuse_chined(item.children,selected,index)" > 
-                                    <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.item.name }}</span> <span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.COLUMN_NAME }}</span>
+                                    <span class="item-database">{{ selected.database }}</span>.<span :class="{'item-parent':selected.item.child,'item-child':!selected.item.child}">{{ selected.item.name }}</span>.<span class="item-field">{{ selected.item.COLUMN_NAME }}</span>
                                 </div>
                             </div>
                     </div>
