@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineExpose, ref } from 'vue'
+import { selected_tables } from './selected-tables'
 
 import MultiSearchInput from '@/components/multisearch-input.vue'
 import { clear as clear_used_tables } from './used-tables'
@@ -22,7 +23,7 @@ function expand()
 const search_database = ref('')
 const search_table = ref('')
 
-import { selected_tables } from './selected-tables'
+
 
 
 function move(table:any, database:string) {
@@ -69,7 +70,7 @@ function move(table:any, database:string) {
                 </div>
                 <div style="padding-top:5px">
                     <div 
-                        v-for="database of databases?.filter((item)=>item.name.includes(search_database))" 
+                        v-for="database of databases?.filter((item:any)=>item.name.includes(search_database))" 
                         :key="database.name"
                         
                     >
@@ -81,7 +82,7 @@ function move(table:any, database:string) {
                         <div v-if="!database.collapsed">
                             <div 
                                 class="item item-table" 
-                                v-for="table of database.tables?.filter((item)=>item.name.includes(search_table))" 
+                                v-for="table of database.tables?.filter((item:any)=>item.name.includes(search_table))" 
                                 draggable="true" 
                                 :class="{'selected-item':table.selected}"
                                 @click="move(table,database.name);"

@@ -12,6 +12,8 @@ import { load } from './views/main/load-databases'
 import { selected_tables } from '@/views/main/selected-tables'
 import { databases } from '@/views/main/load-databases'
 import { ref, nextTick } from 'vue'
+import mysql from 'mysql'
+import { connection } from '@/libraries/mysql'
 
 const popup = ref()
 const main = ref()
@@ -35,8 +37,7 @@ const tabs = ref([
     'Result'
 ])
 const loading = ref(false)
-import mysql from 'mysql'
-import { connection } from '@/libraries/mysql'
+
 function open(e: any)
 {
     
