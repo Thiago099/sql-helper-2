@@ -55,7 +55,7 @@ function build(parent:any=null)
         const has_alias = alias != item.table
         if(current)
         join += current.child ? `<span class="item-field"> LEFT JOIN </span><span class='item-parent'>${current.REFERENCED_TABLE_NAME}</span>${has_alias?' <span class="item-field">AS</span> <span class="item-parent">'+alias+'</span> ':''} <span class="item-field">ON</span> <span class='item-parent'>${has_alias?alias:current.REFERENCED_TABLE_NAME}</span>.${current.REFERENCED_COLUMN_NAME} = <span class="${parent_class}">${parent_has_alias?parent_alias:current.TABLE_NAME}</span>.${current.COLUMN_NAME}<br>` :
-                                `<span class="item-field">LEFT JOIN</span> <span class='item-child'>${current.TABLE_NAME}</span>${has_alias?' <span class="item-field">AS</span> <span class="item-child">'+alias+'</span> ':''}  <span class="item-field">ON</span> <span class='item-child'>${current.TABLE_NAME}</span>.${current.COLUMN_NAME} = <span class="${parent_class}">${parent_has_alias?parent_alias:current.REFERENCED_TABLE_NAME}</span>.${current.REFERENCED_COLUMN_NAME}<br>`
+                                `<span class="item-field">LEFT JOIN</span> <span class='item-child'>${current.TABLE_NAME}</span>${has_alias?' <span class="item-field">AS</span> <span class="item-child">'+alias+'</span> ':''}  <span class="item-field">ON</span> <span class='item-child'>${has_alias?alias:    current.TABLE_NAME}</span>.${current.COLUMN_NAME} = <span class="${parent_class}">${parent_has_alias?parent_alias:current.REFERENCED_TABLE_NAME}</span>.${current.REFERENCED_COLUMN_NAME}<br>`
         build(item)
     })
 }
