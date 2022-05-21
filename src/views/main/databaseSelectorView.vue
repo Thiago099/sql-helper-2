@@ -26,8 +26,13 @@ import { selected_tables } from './selected-tables'
 
 
 function move(table:any, database:string) {
-
-    if(selected_tables.value.every((item:any) => item.table.name != table.name || item.database != database))
+    const selected = table.selected 
+    selected_tables.value.forEach((element:any) => {
+        element.table.selected = false;
+    });
+    table.selected = !selected
+    selected_tables.value = []
+    if(!selected)
     {
         selected_tables.value.push({database,table})
     }
@@ -45,8 +50,6 @@ defineExpose({
 
 <template>
 <div>
-    <div class="row">
-        <div class="col-6">
             <multi-search-input 
                 @database="search_database = $event"
                 @table="search_table = $event"
@@ -84,7 +87,7 @@ defineExpose({
                                 v-for="table of database.tables?.filter((item)=>item.name.includes(search_table))" 
                                 draggable="true" 
                                 :class="{'selected-item':table.selected}"
-                                @click="move(table,database.name);table.selected = !table.selected"
+                                @click="move(table,database.name);"
                                 :key="database.name+table.name"
                             >
                                 &nbsp;&nbsp;&nbsp;&nbsp;{{ table.name }}
@@ -94,25 +97,6 @@ defineExpose({
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <div 
-                class="group" 
-                style="height:calc(100vh - 130px);margin-top:49px"
-            >
-                <div 
-                    class="item" 
-                    v-for="(selected, index) of selected_tables" 
-                    :key="selected" 
-                    @click="selected_tables.splice(index,1);selected.table.selected = false"
-                > 
-                    <span class="item-database">{{ selected.database }}</span>.<span class="item-table">{{ selected.table.name }}</span>
-                </div>
-            </div>
-        </div>
-            
-    </div>
-
-</div>
 </template>
 <style scoped>
 

@@ -1,7 +1,10 @@
 
 <script setup lang="ts">
+import popupControl from '@/components/popup-control.vue'
 import searchInput from '@/components/search-input.vue'
+import { sqlite } from '@/libraries/sqlite'
 import { ref } from 'vue'
+const popup = ref()
 const search = ref('')
 interface connection_field{
     delete:boolean,
@@ -77,7 +80,6 @@ function select(connection:connection_field){
   connection.selected = true
   selected_connection.value = connection
 }
-import { sqlite } from '@/libraries/sqlite'
 (async ()=>{
   const db = await sqlite
   db.exec('CREATE TABLE IF NOT EXISTS connections(name varchar(64),ip varchar(64),port varchar(64),user varchar(64),password varchar(64))')
@@ -120,12 +122,14 @@ async function save()
         }
       }
   });
+  popup.value.addMessage('success', 'Saved successfully')
 }
 </script>
 <template>
   <div>
     <div class="row">
       <div class="col-5">
+        <popup-control ref="popup"/>
         <search-input @input="search = $event?.target?.value"/>
         <div class="list group" style="overflow:auto">
           <div class="separator"
