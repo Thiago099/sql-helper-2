@@ -114,7 +114,7 @@ const searchField = ref<string>('')
                     <div v-for="field in table.fields?.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
                         <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="item-field">{{field.name}}</span> 
                         <div class="input-group">
-                            <input type="text" spellcheck="false" class="inline-input" v-model="field.alias" @click="$event.stopPropagation();"> <button class="btn btn-primary append-button" @click="field.alias = table.alias"><div>parent</div></button>   
+                            <input type="text" spellcheck="false" class="inline-input" v-model="field.alias" @click="$event.stopPropagation();"> <button class="btn btn-primary append-button" @click="field.alias = table.alias"><div><i class="fa fa-table"></i></div></button>   <button class="btn btn-success append-button" @click="field.alias = field.name"><div><i class="fa fa-rotate-left"></i></div></button>  
                         </div>
                     </div>
                 </div>
@@ -138,8 +138,10 @@ const searchField = ref<string>('')
 }
 .append-button{
     height: 22px;
+    width: 10px;
 }
 .append-button div{
-    margin-top:-10px
+    margin-top:-8px;
+    margin-left:-8px;
 }
 </style>

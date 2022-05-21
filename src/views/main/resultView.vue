@@ -15,7 +15,7 @@ for(const table of used.value)
     {
         if(field.selected)
         {
-            table_select += `<span class="${current_class}">${table.alias}</span>.${field.alias},<br>`
+            table_select += `<span class="${current_class}">${table.alias}</span>.${field.name}${field.name != field.alias? ' ' + field.alias : ''},<br>`
         }
         else
         {
