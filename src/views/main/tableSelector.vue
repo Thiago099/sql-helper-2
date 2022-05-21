@@ -95,6 +95,37 @@ const toSearchChild = ref('')
 
 const collapsedFrom = ref(false)
 const collapsedTo = ref(false)
+
+function expand_from()
+{
+    collapsedFrom.value = false
+    available_foreign_keys.value.forEach((item:any) => {
+        item.collapsed = false
+    })
+}
+function collapse_from()
+{
+    collapsedFrom.value = true
+    available_foreign_keys.value.forEach((item:any) => {
+        item.collapsed = true
+    })
+}
+function expand_to()
+{
+    collapsedTo.value = false
+    used_chained.value.forEach((item:any) => {
+        item.collapsed = false
+    })
+}
+
+function collapse_to()
+{
+    collapsedTo.value = true
+    used_chained.value.forEach((item:any) => {
+        item.collapsed = true
+    })
+}
+
 </script>
 
 <template>
@@ -118,6 +149,10 @@ const collapsedTo = ref(false)
                     ]"
                 />
                 <div class="group" style="height:calc(100vh - 130px);">
+                    <div class="header-group"  style="z-index:100">
+                        <i class="fa fa-minus-square collapse-icon" @click="collapse_from()"></i>
+                        <i class="fa fa-plus-square collapse-icon" @click="expand_from()"></i>
+                    </div>
                     <div v-show="'selected'.includes(formSearchParent)">
                         <div class="item-group text-center" draggable="true" @click="collapsedFrom = !collapsedFrom" v-if="selected_tables.filter(item=>!item.used && item.table.name.includes(formSearchChild)).length > 0">
                         <i class="fa fa-caret-right" v-if="collapsedFrom"></i> 
@@ -161,6 +196,10 @@ const collapsedTo = ref(false)
                     ]"
                 />
                 <div class="group" style="height:calc(100vh - 130px);">
+                    <div class="header-group"  style="z-index:100">
+                        <i class="fa fa-minus-square collapse-icon" @click="collapse_to()"></i>
+                        <i class="fa fa-plus-square collapse-icon" @click="expand_to()"></i>
+                    </div>
                     <div v-show="'selected'.includes(toSearchParent)">
                         <div class="item-group text-center" draggable="true" @click="collapsedTo = !collapsedTo"  v-if="used_tables.filter(item=>item.table.name.includes(toSearchChild)).length > 0">
                         <i class="fa fa-caret-right" v-if="collapsedTo"></i> 
