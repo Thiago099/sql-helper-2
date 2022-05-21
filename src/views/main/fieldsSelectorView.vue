@@ -88,12 +88,12 @@ function collapse(table:any)
                         <i class="fa fa-caret-right item-database" v-if="table.collapsed"></i> 
                         <i class="fa fa-caret-down item-database" v-else></i>
                     </div>
-                    <span class="item-database">{{ table.database }}</span>.<span class="item-table">{{ table.table }}</span> <span :class="{'item-parent':table?.item?.child,'item-child':!table?.item?.child}">{{ table?.item?.COLUMN_NAME }}</span>
-                    <input type="text" class="inline-input" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu">
+                    <span class="item-database">{{ table.database }}</span>.<span class="item-table">{{ table.table }}</span> 
+                    <input type="text" class="inline-input" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> {{used.find(item=>item.item == table.parent)?.alias}}
                 </div>
                 <div v-show="!table.collapsed">
                     <div v-for="field in table.fields" :key="field" class="item">
-                        <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="field-name">{{field.name}}</span> 
+                        <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="item-field">{{field.name}}</span> 
                         <input type="text" spellcheck="false" class="inline-input" v-model="field.alias" @click="$event.stopPropagation();">
                     </div>
                 </div>
@@ -111,7 +111,5 @@ function collapse(table:any)
     text-align: center;
     margin-left: 10px;
 }
-.field-name{
-    color: rgb(67, 0, 250)
-}
+
 </style>
