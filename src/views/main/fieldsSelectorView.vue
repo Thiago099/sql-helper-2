@@ -75,8 +75,8 @@ function collapse(table:any)
     table.collapsed = !table.collapsed;
 }
 
-const searchTable = ref<string>()
-const searchField = ref<string>()   
+const searchTable = ref<string>('')
+const searchField = ref<string>('')   
 
 </script>
 
@@ -98,7 +98,7 @@ const searchField = ref<string>()
                     ]"
                 />
         <div class="group" style="height:calc(100vh - 130px)">
-            <div v-for="table in used.filter(item=>item.alias.includes(searchTable))" :key="table">
+            <div v-for="table in used?.filter(item=>item.alias.includes(searchTable))" :key="table">
                 <div class="item" @click="collapse(table)" >
                     <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
                         <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table?.fields?.every(item=>item.selected == true)">
@@ -111,7 +111,7 @@ const searchField = ref<string>()
                     <input type="text" class="inline-input" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> {{used.find(item=>item.item == table.parent)?.alias}}
                 </div>
                 <div v-show="!table.collapsed">
-                    <div v-for="field in table.fields.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
+                    <div v-for="field in table.fields?.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
                         <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="item-field">{{field.name}}</span> 
                         <input type="text" spellcheck="false" class="inline-input" v-model="field.alias" @click="$event.stopPropagation();">
                     </div>
