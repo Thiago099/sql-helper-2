@@ -146,8 +146,8 @@ async function save()
           
         </div>
         <div class="btn-group d-flex">
-        <button class="btn btn-success w-100" @click="add"><i class="fa fa-plus"></i> Novo</button>
-        <button class="btn btn-danger w-100" @click="remove"><i class="fa fa-trash"></i> Apagar</button>
+        <button class="btn btn-success w-100" @click="add"><i class="fa fa-plus"></i> New</button>
+        <button class="btn btn-danger w-100" @click="remove"><i class="fa fa-trash"></i> Deletes</button>
         </div>
       </div>
       <div class="col-7">
@@ -176,8 +176,8 @@ async function save()
           </div>
         </div>
         <div class="d-flex btn-group">
-          <button class="btn btn-primary" @click="save()"><i class="fa fa-floppy-o" ></i> Salvar</button>
-          <button class="btn btn-warning" @click="if(selected_connection.enabled){$emit('open',selected_connection.connection);}"><i class="fa fa-folder"></i> Abrir</button>
+          <button class="btn btn-primary" @click="save()"><i class="fa fa-floppy-o" ></i> Save</button>
+          <button class="btn btn-warning" @click="if(selected_connection.enabled){$emit('open',selected_connection.connection);}"><i class="fa fa-folder"></i> Open</button>
         </div>
       </div>
     </div>
