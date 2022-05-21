@@ -25,7 +25,7 @@ for(const table of used.value)
     }
     if(all_fields)
     {
-        select += `<span class="${current_class}">${table.table}</span>.*,<br>`
+        select += `<span class="${current_class}">${table.alias}</span>.*,<br>`
     }
     else
     {
