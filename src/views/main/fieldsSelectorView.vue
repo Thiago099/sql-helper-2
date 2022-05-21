@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MultiSearchInput from '@/components/multisearch-input.vue'
 import { ref,watch } from 'vue'
 import { used_tables, available_foreign_keys, used_chained } from './used-tables'
 import { used } from './used-fields'
@@ -74,12 +75,30 @@ function collapse(table:any)
     table.collapsed = !table.collapsed;
 }
 
+const searchTable = ref<string>()
+const searchField = ref<string>()   
+
 </script>
 
 <template>
     <div>
-        <div class="group" style="height:90vh">
-            <div v-for="table in used" :key="table">
+                        <multi-search-input 
+                    @table="searchTable = $event"
+                    @field="searchField = $event"
+                    :fields="[
+                        
+                        {
+                            name:'table',
+                            icon:'fa-table'
+                        },
+                        {
+                            name:'field',
+                            icon:'fa-pencil-square-o'
+                        }
+                    ]"
+                />
+        <div class="group" style="height:calc(100vh - 130px)">
+            <div v-for="table in used.filter(item=>item.alias.includes(searchTable))" :key="table">
                 <div class="item" @click="collapse(table)" >
                     <div style="display:inline;padding:8px" @click="$event.stopPropagation();">
                         <input type="checkbox" @click="update_selected($event,table.fields)" :checked="table?.fields?.every(item=>item.selected == true)">
@@ -92,7 +111,7 @@ function collapse(table:any)
                     <input type="text" class="inline-input" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> {{used.find(item=>item.item == table.parent)?.alias}}
                 </div>
                 <div v-show="!table.collapsed">
-                    <div v-for="field in table.fields" :key="field" class="item">
+                    <div v-for="field in table.fields.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
                         <input style="margin-left:30px" type="checkbox" v-model="field.selected"> <span class="item-field">{{field.name}}</span> 
                         <input type="text" spellcheck="false" class="inline-input" v-model="field.alias" @click="$event.stopPropagation();">
                     </div>
