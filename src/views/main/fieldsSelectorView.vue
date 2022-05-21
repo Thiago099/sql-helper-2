@@ -108,7 +108,10 @@ const searchField = ref<string>('')
                         <i class="fa fa-caret-down item-database" v-else></i>
                     </div>
                     <span class="item-database">{{ table.database }}</span>.<span :class="{'item-table':table?.item?.item?.child==undefined,'item-child':table?.item?.item?.child == false,'item-parent':table?.item?.item?.child}">{{ table.table }}</span> 
-                    <input type="text" class="inline-input border-green" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database">{{used.find(item=>item.item == table.parent)?.database}}</span>.{{used.find(item=>item.item == table.parent)?.alias}}.{{table?.item?.item?.COLUMN_NAME}}</span>
+                    <div class="input-group">
+                    <input type="text" class="inline-input border-green" :class="{'border-red':used.filter((item:any)=>item.alias == table.alias).length>1}" spellcheck="false" v-model="table.alias" @click="$event.stopPropagation();" ref="menu"> <button class="btn btn-success append-button" @click="$event.stopPropagation();table.alias = table.table"><div><i class="fa fa-rotate-left"></i></div></button> </div> <span v-show="table?.item?.item?.COLUMN_NAME"><span class="item-database">{{used.find(item=>item.item == table.parent)?.database}}</span>.{{used.find(item=>item.item == table.parent)?.alias}}.{{table?.item?.item?.COLUMN_NAME}}</span>
+                    
+                    
                 </div>
                 <div v-show="!table.collapsed">
                     <div v-for="field in table.fields?.filter(item=>item.alias.includes(searchField))" :key="field" class="item">
@@ -143,6 +146,11 @@ const searchField = ref<string>('')
     background-color: rgb(221, 240, 255);
 }
 
+
+.border-red{
+    border:1px solid #f44336;
+    background-color: #ffebee;
+}
 .input-group{
     display: inline;
 }
@@ -159,4 +167,6 @@ const searchField = ref<string>('')
     background-color: #f5f5f5;
     border-bottom:2px solid #ccc;
 }
+
+
 </style>
