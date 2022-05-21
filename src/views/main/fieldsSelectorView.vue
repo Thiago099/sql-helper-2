@@ -77,7 +77,7 @@ function collapse(table:any)
 
 const searchTable = ref<string>('')
 const searchField = ref<string>('')   
-const current_used:any = {}
+let current_used:any = {}
 
 function collapse_all()
 {
