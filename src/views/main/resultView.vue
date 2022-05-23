@@ -16,6 +16,11 @@ for(const table of used.value)
         if(field.selected)
         {
             table_select += `\`<span class="${current_class}">${table.alias}</span>\`.\`<span class="item-field">${field.name}</span>\`${field.name != field.alias? ' <span class="sql-syntax">AS</span> `<span class="item-field">' + field.alias + '</span>`' : ''},<br>`
+            if(field.name != field.alias)
+            {
+                all_fields = false
+                all_tables = false
+            }
         }
         else
         {
