@@ -6,7 +6,18 @@ import { selected_tables } from './selected-tables'
 import { find_foreign_keys } from './foreign-key-finder'
 
 import { used_tables, available_foreign_keys, used_chained } from './used-tables'
+function sort_by_type(a:any,b:any)
+{
 
+    if(a.item.child == b.item.child)
+    {
+        return a.item.name.localeCompare(b.item.name)
+    }
+    else
+    {
+        return a.item.child?-1:1
+    }
+}
 function use(selected:any)
 {
     selected.used = true
@@ -22,7 +33,7 @@ function use(selected:any)
                     parent_name: selected.table.name,
                     parent : selected,
                     database: selected.database
-                } }).sort((a:any,b:any) => a.item.name.localeCompare(b.item.name))}
+                } }).sort((a:any,b:any) => sort_by_type(a, b))}
         available_foreign_keys.value.push(parent)
     })
 }
@@ -57,7 +68,7 @@ function use_chained(chained:any)
                     parent_name: name,
                     parent : chained,
                     database: chained.database
-                }}).filter((item:any) => is_valid(item)).sort((a:any,b:any) => a.item.name.localeCompare(b.item.name))}
+                }}).filter((item:any) => is_valid(item)).sort((a:any,b:any) => sort_by_type(a, b))}
         available_foreign_keys.value.push(parent)
     })
 }
