@@ -70,7 +70,7 @@ if(root)
 {
     const alias = root?.alias
     const has_alias = root?.alias != root?.table
-    result = `<span class="sql-syntax">SELECT</span> ${select} <span class="sql-syntax">FROM</span> <span class="item-table">${root.table}</span>${has_alias?' <span class="sql-syntax">AS</span> <span class="item-table">'+alias+'</span> ':''}<br>${join}`
+    result = `<span class="sql-syntax">SELECT</span> ${select} <span class="sql-syntax">FROM</span> \`<span class="item-table">${root.table}</span>\`${has_alias?' <span class="sql-syntax">AS</span> \`<span class="item-table">'+alias+'</span>\` ':''}<br>${join}`
 }
 
 const element = ref()
