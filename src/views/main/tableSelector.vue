@@ -22,7 +22,7 @@ function use(selected:any)
                     parent_name: selected.table.name,
                     parent : selected,
                     database: selected.database
-                } })}
+                } }).sort((a:any,b:any) => a.item.name.localeCompare(b.item.name))}
         available_foreign_keys.value.push(parent)
     })
 }
@@ -57,7 +57,7 @@ function use_chained(chained:any)
                     parent_name: name,
                     parent : chained,
                     database: chained.database
-                }}).filter((item:any) => is_valid(item))}
+                }}).filter((item:any) => is_valid(item)).sort((a:any,b:any) => a.item.name.localeCompare(b.item.name))}
         available_foreign_keys.value.push(parent)
     })
 }
