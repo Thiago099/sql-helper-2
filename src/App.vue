@@ -49,6 +49,7 @@ function open(e: any)
     });
     con.connect( (err: any) => {
         if (err) {
+            console.log(err)
             popup.value.addMessage('danger', 'Error connecting to database')
             loading.value = false
             return;
