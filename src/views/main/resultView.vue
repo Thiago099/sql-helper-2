@@ -16,6 +16,11 @@ for(const table of used.value)
         if(field.selected)
         {
             table_select += `\`<span class="${current_class}">${table.alias}</span>\`.\`<span class="item-field">${field.name}</span>\`${field.name != field.alias? ' <span class="sql-syntax">AS</span> `<span class="item-field">' + field.alias + '</span>`' : ''},<br>`
+            if(field.name != field.alias)
+            {
+                all_fields = false
+                all_tables = false
+            }
         }
         else
         {
@@ -65,7 +70,7 @@ if(root)
 {
     const alias = root?.alias
     const has_alias = root?.alias != root?.table
-    result = `<span class="sql-syntax">SELECT</span> ${select} <span class="sql-syntax">FROM</span> <span class="item-table">${root.table}</span>${has_alias?' <span class="sql-syntax">AS</span> <span class="item-table">'+alias+'</span> ':''}<br>${join}`
+    result = `<span class="sql-syntax">SELECT</span> ${select} <span class="sql-syntax">FROM</span> \`<span class="item-table">${root.table}</span>\`${has_alias?' <span class="sql-syntax">AS</span> `<span class="item-table">'+alias+'</span>` ':''}<br>${join}`
 }
 
 const element = ref()

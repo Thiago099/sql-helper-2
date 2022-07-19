@@ -86,8 +86,8 @@ function open(e: any)
             </ul>
         </div>
         <connection-view v-show="selectedView == 'connection'" @open="open" />
-        <main-view v-if="selectedView == 'main' && selectedTab == 'Database'"   ref="main" />
-        <table-selector v-if="selectedView == 'main' && selectedTab == 'Table'" ref="table" />
+        <main-view v-show="selectedView == 'main' && selectedTab == 'Database'"   ref="main" />
+        <table-selector v-show="selectedView == 'main' && selectedTab == 'Table'" ref="table" />
         <fields-selector-view v-if="selectedView == 'main' && selectedTab == 'Fields'" ref="fields" />
         <result-view v-if="selectedView == 'main' && selectedTab == 'Result'" ref="result" />
     </div>
