@@ -9,10 +9,6 @@ Then you click on the tables on the left side to move them to the right side, to
 
 ![image](https://github.com/Thiago099/sql-helper-2/assets/66787043/97fbd9fc-c9a7-48c6-a812-a559a71d49b1)
 
-Then you click on the tables on the left side to move them to the right side, to select them to use in the query. Once you add a table the program will scan the database for foreign keys that the table has (cyan) and foreign keys that reference that table (pink), those will appear on the left side.
-
-![image](https://github.com/Thiago099/sql-helper-2/assets/66787043/0e005e36-58a5-4539-ae01-891d68525653)
-
 Finally, you select which fields do you want, and define alias to the fields and tables (duplicated table alias will appear in red).
 
 ![image](https://github.com/Thiago099/sql-helper-2/assets/66787043/d0f9c5ce-2456-4cda-99f5-55b50a3247d7)
