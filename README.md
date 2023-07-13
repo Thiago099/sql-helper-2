@@ -1,4 +1,4 @@
-# sql-helper-2
+# Sql Helper 2
 Graphic interface that makes it a lot easier to build SQL queries.
 
 First, you select a database and table.
